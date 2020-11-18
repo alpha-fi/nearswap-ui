@@ -22,9 +22,10 @@ export default function NavigationBar() {
         <Container>
           <Navbar.Brand href="" className="pl-3">
             {(themeState.dark)
-              ? <img src={require('../assets/logo-clp-inverted.png')} height="70px"/>
-              : <img src={require('../assets/logo-clp.png')} height="70px"/>
+              ? <img src={require('../assets/logo-clp-min-inverted.png')} height="40px"/>
+              : <img src={require('../assets/logo-clp-min.png')} height="40px"/>
             }
+            <span className="ml-3">NEARswap</span>
           </Navbar.Brand>
           <Nav className="mr-auto">
             <Nav.Link><AboutButton/></Nav.Link>
