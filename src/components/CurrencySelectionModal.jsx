@@ -5,8 +5,6 @@ import findCurrencyLogoUrl from "../services/find-currency-logo-url";
 import Modal from 'react-bootstrap/Modal';
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
-import InputGroup from 'react-bootstrap/InputGroup';
-import FormControl from 'react-bootstrap/FormControl';
 
 import { InputsContext } from "../contexts/InputsContext";
 
@@ -36,16 +34,6 @@ export default function CurrencySelectionModal(props) {
           <Modal.Title>Select currency</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <InputGroup className="mb-3">
-            <FormControl
-              size="lg"
-              className="rounded"
-              placeholder="Enter a custom token address..."
-            />
-            <InputGroup.Append>
-              <Button variant="warning" className="ml-2" disabled>Add</Button>
-            </InputGroup.Append>
-          </InputGroup>
           <LimitedHeightTable>
             <Table hover>
               <thead>
