@@ -1,2 +1,1 @@
-# nearswap-web
-NEARswap webapp
+# NEARswap webapp
