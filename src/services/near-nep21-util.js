@@ -21,19 +21,6 @@ export async function getBalanceNEP(contractName) {
   return await window.nep21.get_balance({ owner_id: window.walletConnection.getAccountId() });
 }
 
-export async function calcSlippage(tokenProvide, tokenWant) {
-
-  const price = await calcPriceFromOut(tokenProvide, tokenWant);
-  const token = Object.assign({}, tokenWant);
-  token.amount = 1;
-  const unitPrice = await calcPriceFromOut(tokenProvide, token);
-  const noSlippagePrice = unitPrice * tokenWant.amount;
-  const slippage = (price - noSlippagePrice) / noSlippagePrice;
-  console.log("Slippage: ", slippage);
-  return slippage;
-
-}
-
 export async function incAllowance(swapLeg) {
 
   if (swapLeg.amount==""||swapLeg.amount=="0".repeat(24)) {
@@ -280,37 +267,36 @@ export async function swapFromIn(token1, token2) {
   }
 }
 
-export async function calcPriceFromOut(tokenProvide, tokenWant) {
-  
-  if (tokenWant.amount < 1) {
+export async function calcPriceFromOut(token1, token2) {
+  let amount2 = normalizeAmount(token2.amount);
+  if (amount2 < 1) {
     return 0;
   }
-  console.log(tokenProvide.type, tokenWant.type);
-  if (tokenProvide.type === "Native token") {
+  if (token1.type === "Native token") {
     // Native to NEP-21
     const price = await window.contract.price_near_to_token_out({
-      token: tokenWant.address,
-      tokens_out: toYoctosString(tokenWant.amount)
+      token: token2.address,
+      tokens_out: amount2
     });
     console.log("expect_in ", price);
     return price;
   }
   else {
-    if (tokenWant.type === "NEP-21") {
+    if (token2.type === "NEP-21") {
       // NEP-21 to NEP-21
       const price = await window.contract.price_token_to_token_out({
-        from: tokenProvide.address,
-        to: tokenWant.address,
-        tokens_out: toYoctosString(tokenWant.amount)
+        from: token1.address,
+        to: token2.address,
+        tokens_out: amount2
       });
       console.log("expect_in ", price);
       return price;
     }
-    else if (tokenWant.type === "Native token") {
+    else if (token2.type === "Native token") {
       // NEP-21 to Native
       const price = await window.contract.price_token_to_near_out({
-        token: tokenProvide.address,
-        ynear_out: toYoctosString(tokenWant.amount)
+        token: token1.address,
+        ynear_out: amount2
       });
       return price;
     }
