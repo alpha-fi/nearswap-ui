@@ -4,6 +4,7 @@ import { convertToE24Base, browsePools, poolInfo } from "../services/near-nep21-
 
 import PoolInputCards from "./PoolInputCards"
 import PoolInfoCard from "./PoolInfoCard"
+import AddLiquidityModal from "./AddLiquidityModal"
 
 import Button from 'react-bootstrap/Button';
 
@@ -54,6 +55,7 @@ export default function PoolTab() {
       <Hr className="mt-4"/>
       <p className="text-center my-1 text-secondary" style={{ 'letterSpacing': '3px' }}><small>PROVIDE LIQUIDITY</small></p>
       <PoolInputCards/>
+      <AddLiquidityModal/>
     </>
   );
 }
