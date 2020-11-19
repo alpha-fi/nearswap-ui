@@ -7,6 +7,15 @@ import WalletConnectProvider from '@walletconnect/web3-provider';
 const Web3Context = createContext();
 const { Provider } = Web3Context;
 
+//https://chainid.network/
+const EthNetworks = new Map(); // Map from chainId to Network-Name
+EthNetworks.set(1, "Mainnet : Ethereum main network");
+EthNetworks.set(3, "Ropsten : Ethereum test network (PoW)");
+EthNetworks.set(4, "Rinkeby : Ethereum test network (PoA)");
+EthNetworks.set(42, "Kovan : Ethereum test network (PoA)");
+EthNetworks.set(61, "Ethereum Classic Mainnet : Ethereum Classic main network");
+EthNetworks.set(62, "Morden : Ethereum Classic test network");
+
 const providerOptions = {
   walletconnect: {
     package: WalletConnectProvider, // required
@@ -24,9 +33,9 @@ const w3connect = async (web3Modal) => {
   if (injectedChainId !== window.config.ethChainId) {
     alert(
       `Please switch Web3 to the correct network and try signing in again. Detected network: ${
-        injectedChainId
+        EthNetworks.get(injectedChainId)
       }, Required network: ${
-        window.config.ethChainId
+        EthNetworks.get(window.config.ethChainId)
       }`,
     );
   }
@@ -49,9 +58,9 @@ const signInWithWeb3 = async () => {
   if (injectedChainId !== window.config.ethChainId) {
     alert(
       `Please switch Web3 to the correct network and try signing in again. Detected network: ${
-        injectedChainId
+        EthNetworks.get(injectedChainId)
       }, Required network: ${
-        window.config.ethChainId
+        EthNetworks.get(window.config.ethChainId)
       }`,
     );
   }
