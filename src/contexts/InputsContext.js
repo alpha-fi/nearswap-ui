@@ -46,7 +46,8 @@ let initialState = {
   },
   addLiquidityModal: {
     isVisible: false,
-    selectedTokenIndex: "0"
+    selectedTokenIndex: 0,
+    selectedTokenName: ""
   }
 };
 
@@ -210,6 +211,11 @@ function reduce(state, action) {
     case 'TOGGLE_ADD_LIQUIDITY_MODAL':
       return produce(state, draft => {
         draft.addLiquidityModal.isVisible = !state.addLiquidityModal.isVisible;
+      });
+    case 'UPDATE_LIQUDITY_MODAL_SELECTED_CURRENCY':
+      return produce(state, draft => {
+        draft.addLiquidityModal.selectedTokenIndex = action.payload.selectedTokenIndex;
+        draft.addLiquidityModal.selectedTokenName = action.payload.selectedTokenName;
       });
 
     case 'UPDATE_SWAP_APPROVAL':

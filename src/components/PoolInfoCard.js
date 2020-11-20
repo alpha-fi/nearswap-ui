@@ -37,8 +37,12 @@ export default function PoolInfoCard(props) {
   // Inputs state
   const inputs = useContext(InputsContext);
 
-  function handleAddLiquidityModal() {
+  function handleAddLiquidityModal(tokenIndex, tokenName) {
     inputs.dispatch({ type: 'TOGGLE_ADD_LIQUIDITY_MODAL' });
+    inputs.dispatch({ type: 'UPDATE_LIQUDITY_MODAL_SELECTED_CURRENCY', payload: {
+      selectedTokenIndex: tokenIndex,
+      selectedTokenName: tokenName,
+    } })
   }
 
   return (
@@ -74,7 +78,7 @@ export default function PoolInfoCard(props) {
                 </Table>
               </Col>
               <Col className="my-auto text-center" xs={12} sm={4}>
-                <Button variant="warning" size="sm" className="mr-1 mb-1" onClick={e => handleAddLiquidityModal(e)}>Add liquidity</Button>
+                <Button variant="warning" size="sm" className="mr-1 mb-1" onClick={(e) => handleAddLiquidityModal(props.tokenIndex, props.name)}>Add liquidity</Button>
                 <Button variant="warning" size="sm" className="mr-1 mb-1" disabled>Swap</Button>
                 <Button variant="warning" size="sm" className="mr-1 mb-1" disabled>Details</Button>
               </Col>

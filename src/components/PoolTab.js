@@ -10,11 +10,6 @@ import Button from 'react-bootstrap/Button';
 
 import { BsPlus } from "react-icons/bs";
 
-import styled from "@emotion/styled";
-const Hr = styled("hr")`
-  border-top: 1px solid ${props => props.theme.hr}
-`;
-
 export default function PoolTab() {
 
   const [pools, setPools] = useState([]);
@@ -45,6 +40,7 @@ export default function PoolTab() {
       <p className="text-center my-1 text-secondary" style={{ 'letterSpacing': '3px' }}><small>POOLS</small></p>
       {pools.map((pool, index) => (
         <PoolInfoCard key={index} 
+                    tokenIndex = {index}
                     ynear={pool.ynear} 
                     reserve={pool.reserve} 
                     total_shares={pool.total_shares} 
@@ -52,9 +48,6 @@ export default function PoolTab() {
                     />
       ))}
       <p className="mt-4 text-center text-secondary"><small><i>Don't see a pair you're looking for? Create a new pool below.</i></small></p>
-      <Hr className="mt-4"/>
-      <p className="text-center my-1 text-secondary" style={{ 'letterSpacing': '3px' }}><small>PROVIDE LIQUIDITY</small></p>
-      <PoolInputCards/>
       <AddLiquidityModal/>
     </>
   );
