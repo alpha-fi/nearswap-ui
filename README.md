@@ -1,10 +1,13 @@
-NEARswap
-==============
+![logo](/assets/logo-nearswap.png)
 
-Interface for NEARswap smart-contract.
 
-Quick Start
-==============
+## Web interface for NEARswap smart-contract.
+
+NEARswap is part of [NEAR-CLP](https://github.com/near-clp/contracts) - a set of protocols for decentralized finance. With a ground research and solid experience in smart-contract development we define our mission to provide common goods for NEAR DeFi.
+
+
+## Quick Start
+
 
 To run this project locally:
 
@@ -18,14 +21,13 @@ Now you'll have a local development environment backed by the NEAR TestNet!
 Go ahead and play with the app and the code. As you make code changes, the app will automatically reload.
 
 
-Develop
-======
+## Develop
 
 Every smart contract in NEAR has its [own associated account][NEAR accounts]. When you run `yarn dev`, your smart contract gets deployed to the live NEAR TestNet with a throwaway account. When you're ready to make it permanent, here's how.
 
 
-Step 0: Install near-cli (optional)
--------------------------------------
+### Step 0: Install near-cli (optional)
+
 
 [near-cli] is a command line interface (CLI) for interacting with the NEAR blockchain. It was installed to the local `node_modules` folder when you ran `yarn install`, but for best ergonomics you may want to install it globally:
 
@@ -36,8 +38,7 @@ Or, if you'd rather use the locally-installed version, you can prefix all `near`
 Ensure that it's installed with `near --version` (or `npx near --version`)
 
 
-Step 1: Create an account for the contract
-------------------------------------------
+### Step 1: Create an account for the contract
 
 Each account on NEAR can have at most one contract deployed to it. If you've already created an account such as `your-name.testnet`, you can deploy your contract to `nearswap-interface.your-name.testnet`. Assuming you've already created an account on [NEAR Wallet], here's how to create `nearswap-interface.your-name.testnet`:
 
@@ -50,16 +51,15 @@ Each account on NEAR can have at most one contract deployed to it. If you've alr
       near create-account nearswap-interface.YOUR-NAME.testnet --masterAccount YOUR-NAME.testnet
 
 
-Step 2: set contract name in code
----------------------------------
+### Step 2: set contract name in code
+
 
 Modify the line in `src/config.js` that sets the account name of the contract. Set it to the account id you used above.
 
     const CONTRACT_NAME = process.env.CONTRACT_NAME || 'nearswap-interface.YOUR-NAME.testnet'
 
 
-Step 3: deploy!
----------------
+### Step 3: deploy!
 
 One command:
 
