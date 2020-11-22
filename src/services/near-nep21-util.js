@@ -320,44 +320,44 @@ export async function calcPriceFromOut(tokenProvide, tokenWant) {
   }
 }
 
-export async function swapFromOut(tokenIN, tokenOUT) {
+export async function swapFromOut(tokenProvide, tokenWant) {
 
-  const amountOUT = toYoctosString(tokenOUT.amount); //user input: I want 2 tokens out from the pool -> convert "2" to yoctos
+  const amountWant = toYoctosString(tokenWant.amount); //user input: I want 2 tokens out from the pool -> convert "2" to yoctos
 
-  const amountIN = tokenIN.amount; //computed amount he has to send into the pool, already in yoctos 
+  const amountProvide = tokenProvide.amount; //computed amount he has to send into the pool, already in yoctos 
 
-  if (tokenIN.type === "Native token") {
+  if (tokenProvide.type === "Native token") {
     // Native to NEP-21
     //NEARs IN / Tokens out
     await window.contract.swap_near_to_token_exact_out({
-      token: tokenOUT.address,
-      tokens_out: amountOUT
+      token: tokenWant.address,
+      tokens_out: amountWant
     },
       maxGas,
-      amountIN //near-in
+      attach60NearCents
     );
 
   }
   else {
-    if (tokenOUT.type === "NEP-21") {
+    if (tokenWant.type === "NEP-21") {
       // NEP-21 to NEP-21
       await window.contract.swap_tokens_exact_out({
-        from: tokenIN.address,
-        to: tokenOUT.address,
-        tokens_out: amountOUT,
-        max_tokens_in: amountIN
+        from: tokenProvide.address,
+        to: tokenWant.address,
+        tokens_out: amountWant,
+        max_tokens_in: amountProvide
       },
         maxGas,
         attach60NearCents
       );
 
     }
-    else if (tokenOUT.type === "Native token") {
+    else if (tokenWant.type === "Native token") {
       // NEP-21 to Native
       await window.contract.swap_token_to_near_exact_out({
-        token: tokenIN.address,
-        ynear_out: amountOUT,
-        max_tokens: amountIN
+        token: tokenProvide.address,
+        ynear_out: amountWant,
+        max_tokens: amountProvide
       },
         maxGas,
         attach60NearCents
@@ -368,6 +368,18 @@ export async function swapFromOut(tokenIN, tokenOUT) {
       console.error("Error: Token type error");
     }
   }
+}
+
+// returns NEAR amount needed for x amount of tokens while adding liquidity
+export async function calcNearAmt(tokenDetails) {
+
+  const unitPrice = await window.contract.price_near_to_token_out({
+    token: tokenDetails.address,
+    tokens_out: normalizeAmount("1")
+  });
+
+  const nearRequired = tokenDetails.amount * unitPrice;
+  return nearRequired;
 }
 
 export async function addLiquiduty(tokenDetails, maxTokenAmount, minSharesAmount) {
