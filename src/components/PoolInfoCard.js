@@ -3,6 +3,7 @@ import React, { useContext, useEffect } from "react";
 import { convertToE24Base5Dec } from "../services/near-nep21-util";
 
 import { TokenListContext } from "../contexts/TokenListContext";
+import { InputsContext } from "../contexts/InputsContext";
 
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -32,6 +33,17 @@ export default function PoolInfoCard(props) {
 
   // Token list state (used to get image)
   const tokenListState = useContext(TokenListContext);
+
+  // Inputs state
+  const inputs = useContext(InputsContext);
+
+  function handleAddLiquidityModal(tokenName, tokenSymbol) {
+    inputs.dispatch({ type: 'TOGGLE_ADD_LIQUIDITY_MODAL' });
+    inputs.dispatch({ type: 'UPDATE_LIQUDITY_MODAL_SELECTED_CURRENCY', payload: {
+      selectedTokenName: tokenName,
+      selectedTokenSymbol: tokenSymbol
+    }})
+  }
 
   return (
     <>
@@ -66,7 +78,7 @@ export default function PoolInfoCard(props) {
                 </Table>
               </Col>
               <Col className="my-auto text-center" xs={12} sm={4}>
-                <Button variant="warning" size="sm" className="mr-1 mb-1" disabled>Add liquidity</Button>
+                <Button variant="warning" size="sm" className="mr-1 mb-1" onClick={(e) => handleAddLiquidityModal(props.name, props.symbol)}>Add liquidity</Button>
                 <Button variant="warning" size="sm" className="mr-1 mb-1" disabled>Swap</Button>
                 <Button variant="warning" size="sm" className="mr-1 mb-1" disabled>Details</Button>
               </Col>

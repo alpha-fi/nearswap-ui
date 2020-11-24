@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 
 import { convertToE24Base, browsePools, poolInfo } from "../services/near-nep21-util";
 
-import PoolInputCards from "./PoolInputCards"
 import PoolInfoCard from "./PoolInfoCard"
+import AddLiquidityModal from "./AddLiquidityModal"
+
+import { TokenListContext } from "../contexts/TokenListContext";
 
 import Button from 'react-bootstrap/Button';
 
 import { BsPlus } from "react-icons/bs";
 
-import styled from "@emotion/styled";
-const Hr = styled("hr")`
-  border-top: 1px solid ${props => props.theme.hr}
-`;
-
 export default function PoolTab() {
 
   const [pools, setPools] = useState([]);
+
+  // Token list state
+  const tokenListState = useContext(TokenListContext);
 
   async function fetchPools() {
     browsePools()
@@ -25,8 +25,20 @@ export default function PoolTab() {
         poolInfo(fetchedPoolInfo)
         .then(function(poolInfo) {
           // Set state to an array of pools and include the name of the pool
-          // @TODO: find token within TokenListContext and include images, symbol name. etc.
-          setPools(pools => [...pools, {...poolInfo, name: fetchedPools[index]}]);
+          // @TODO: find token within TokenListContext and include images, etc.
+
+          let tokenAddress = fetchedPools[index];
+          
+          // Find token symbol
+          let tokenSymbol;
+          for (let i = 0; i < tokenListState.state.tokens.length; i++) {
+            if (tokenListState.state.tokens[i].address === tokenAddress) {
+              tokenSymbol = tokenListState.state.tokens[i].symbol;
+              break;
+            }
+          }
+
+          setPools(pools => [...pools, {...poolInfo, name: tokenAddress, symbol: tokenSymbol}]);
         });
       });
     });
@@ -47,13 +59,11 @@ export default function PoolTab() {
                     ynear={pool.ynear} 
                     reserve={pool.reserve} 
                     total_shares={pool.total_shares} 
-                    name={pool.name} 
+                    name={pool.name}
+                    symbol={pool.symbol}
                     />
       ))}
-      <p className="mt-4 text-center text-secondary"><small><i>Don't see a pair you're looking for? Create a new pool below.</i></small></p>
-      <Hr className="mt-4"/>
-      <p className="text-center my-1 text-secondary" style={{ 'letterSpacing': '3px' }}><small>PROVIDE LIQUIDITY</small></p>
-      <PoolInputCards/>
+      <AddLiquidityModal/>
     </>
   );
 }
