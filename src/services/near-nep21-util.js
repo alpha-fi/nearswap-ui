@@ -5,6 +5,8 @@ const maxGas = '300000000000000';
 const attach60NearCents = '6' + e22;
 const nep21AllowanceFee = '4' + e22;
 const NDENOM = 1e24;
+const nativeToken = "NATIVE TOKEN";
+const nep21 = "NEP-21";
 
 export async function getBalanceNEP(contractName) {
 
@@ -195,36 +197,48 @@ export const toYoctosString = normalizeAmount;
 //   return result
 // }
 
-export async function calcPriceFromIn(token1, token2) {
-  //const amount1 = normalizeAmount( token1.amount );
+// Returns 1 if same type of tokens found
+function checkTokenType(tokenProvide, tokenWant) {
+  if((tokenProvide === nativeToken && tokenProvide.type === tokenWant.type) || 
+    (tokenProvide.address === tokenWant.address)) {
 
-  if (token1.amount < 1) {
+    console.log("Cannot Swap Same type of tokens");
+    return 1;
+  }
+  return 0;
+}
+
+export async function calcPriceFromIn(tokenProvide, tokenWant) {
+  //const amount1 = normalizeAmount( tokenProvide.amount );
+
+  if (tokenProvide.amount < 1 || checkTokenType(tokenProvide, tokenWant)) {
     return 0;
   }
-  if (token1.type === "Native token") {
+
+  if (tokenProvide.type === nativeToken) {
     // Native to NEP-21
     const price = await window.contract.price_near_to_token_in({
-      token: token2.address,
-      ynear_in: toYoctosString(token1.amount)
+      token: tokenWant.address,
+      ynear_in: toYoctosString(tokenProvide.amount)
     });
     console.log(price);
     return price;
   }
   else {
-    if (token2.type === "NEP-21") {
+    if (tokenWant.type === nep21) {
       // NEP-21 to NEP-21
       const price = await window.contract.price_token_to_token_in({
-        from: token1.address,
-        to: token2.address,
-        tokens_in: toYoctosString(token1.amount)
+        from: tokenProvide.address,
+        to: tokenWant.address,
+        tokens_in: toYoctosString(tokenProvide.amount)
       });
       return price;
     }
-    else if (token2.type === "Native token") {
+    else if (tokenWant.type === nativeToken) {
       // NEP-21 to Native
       const price = await window.contract.price_token_to_near_in({
-        token: token1.address,
-        tokens_in: toYoctosString(token1.amount)
+        token: tokenProvide.address,
+        tokens_in: toYoctosString(tokenProvide.amount)
       });
       return price;
     }
@@ -234,13 +248,18 @@ export async function calcPriceFromIn(token1, token2) {
   }
 }
 
-export async function swapFromIn(token1, token2) {
-  const amount1 = normalizeAmount(token1.amount);
-  const amount2 = normalizeAmount(token2.amount);
-  if (token1.type === "Native token") {
+export async function swapFromIn(tokenProvide, tokenWant) {
+  const amount1 = normalizeAmount(tokenProvide.amount);
+  const amount2 = normalizeAmount(tokenWant.amount);
+
+  if(checkTokenType(tokenProvide, tokenWant)) {
+    return 0;
+  }
+
+  if (tokenProvide.type === nativeToken) {
     // Native to NEP-21
     await window.contract.swap_near_to_token_exact_in({
-      token: token2.address,
+      token: tokenWant.address,
       min_tokens: amount2
     },
       maxGas,
@@ -249,11 +268,11 @@ export async function swapFromIn(token1, token2) {
 
   }
   else {
-    if (token2.type === "NEP-21") {
+    if (tokenWant.type === nep21) {
       // NEP-21 to NEP-21
       await window.contract.swap_tokens_exact_in({
-        from: token1.address,
-        to: token2.address,
+        from: tokenProvide.address,
+        to: tokenWant.address,
         tokens_in: amount1,
         min_tokens_out: amount2
       },
@@ -262,10 +281,10 @@ export async function swapFromIn(token1, token2) {
       );
 
     }
-    else if (token2.type === "Native token") {
+    else if (tokenWant.type === nativeToken) {
       // NEP-21 to Native
       await window.contract.swap_token_to_near_exact_in({
-        token: token1.address,
+        token: tokenProvide.address,
         tokens_paid: amount1,
         min_ynear: amount2
       },
@@ -282,11 +301,11 @@ export async function swapFromIn(token1, token2) {
 
 export async function calcPriceFromOut(tokenProvide, tokenWant) {
   
-  if (tokenWant.amount < 1) {
+  if (tokenWant.amount < 1 || checkTokenType(tokenProvide, tokenWant)) {
     return 0;
   }
   console.log(tokenProvide.type, tokenWant.type);
-  if (tokenProvide.type === "Native token") {
+  if (tokenProvide.type === nativeToken) {
     // Native to NEP-21
     const price = await window.contract.price_near_to_token_out({
       token: tokenWant.address,
@@ -296,7 +315,7 @@ export async function calcPriceFromOut(tokenProvide, tokenWant) {
     return price;
   }
   else {
-    if (tokenWant.type === "NEP-21") {
+    if (tokenWant.type === nep21) {
       // NEP-21 to NEP-21
       const price = await window.contract.price_token_to_token_out({
         from: tokenProvide.address,
@@ -306,7 +325,7 @@ export async function calcPriceFromOut(tokenProvide, tokenWant) {
       console.log("expect_in ", price);
       return price;
     }
-    else if (tokenWant.type === "Native token") {
+    else if (tokenWant.type === nativeToken) {
       // NEP-21 to Native
       const price = await window.contract.price_token_to_near_out({
         token: tokenProvide.address,
@@ -320,44 +339,47 @@ export async function calcPriceFromOut(tokenProvide, tokenWant) {
   }
 }
 
-export async function swapFromOut(tokenIN, tokenOUT) {
+export async function swapFromOut(tokenProvide, tokenWant) {
 
-  const amountOUT = toYoctosString(tokenOUT.amount); //user input: I want 2 tokens out from the pool -> convert "2" to yoctos
+  if(checkTokenType(tokenProvide, tokenWant)) {
+    return 0;
+  }
+  
+  const amountWant = toYoctosString(tokenWant.amount); //user input: I want 2 tokens out from the pool -> convert "2" to yoctos
+  const amountProvide = tokenProvide.amount; //computed amount he has to send into the pool, already in yoctos 
 
-  const amountIN = tokenIN.amount; //computed amount he has to send into the pool, already in yoctos 
-
-  if (tokenIN.type === "Native token") {
+  if (tokenProvide.type === nativeToken) {
     // Native to NEP-21
     //NEARs IN / Tokens out
     await window.contract.swap_near_to_token_exact_out({
-      token: tokenOUT.address,
-      tokens_out: amountOUT
+      token: tokenWant.address,
+      tokens_out: amountWant
     },
       maxGas,
-      amountIN //near-in
+      attach60NearCents
     );
 
   }
   else {
-    if (tokenOUT.type === "NEP-21") {
+    if (tokenWant.type === nep21) {
       // NEP-21 to NEP-21
       await window.contract.swap_tokens_exact_out({
-        from: tokenIN.address,
-        to: tokenOUT.address,
-        tokens_out: amountOUT,
-        max_tokens_in: amountIN
+        from: tokenProvide.address,
+        to: tokenWant.address,
+        tokens_out: amountWant,
+        max_tokens_in: amountProvide
       },
         maxGas,
         attach60NearCents
       );
 
     }
-    else if (tokenOUT.type === "Native token") {
+    else if (tokenWant.type === nativeToken) {
       // NEP-21 to Native
       await window.contract.swap_token_to_near_exact_out({
-        token: tokenIN.address,
-        ynear_out: amountOUT,
-        max_tokens: amountIN
+        token: tokenProvide.address,
+        ynear_out: amountWant,
+        max_tokens: amountProvide
       },
         maxGas,
         attach60NearCents
@@ -368,6 +390,18 @@ export async function swapFromOut(tokenIN, tokenOUT) {
       console.error("Error: Token type error");
     }
   }
+}
+
+// returns NEAR amount needed for x amount of tokens while adding liquidity
+export async function calcNearAddLiquidity(tokenDetails) {
+
+  const unitPrice = await window.contract.price_near_to_token_out({
+    token: tokenDetails.address,
+    tokens_out: normalizeAmount("1")
+  });
+
+  const nearRequired = tokenDetails.amount * unitPrice;
+  return nearRequired;
 }
 
 export async function addLiquiduty(tokenDetails, maxTokenAmount, minSharesAmount) {
