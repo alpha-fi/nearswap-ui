@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 
-import { calcNearAddLiquidity, convertToE24Base5Dec, convertToE24Base } from "../services/near-nep21-util";
+import { calcNearAddLiquidity, convertToE24Base5Dec, incAllowance } from "../services/near-nep21-util";
 
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
@@ -44,6 +44,11 @@ export default function CurrencySelectionModal(props) {
     dispatch({type:'UPDATE_ADD_LIQUIDITY_REQUIRED_NEAR_AMOUNT', payload: {requiredNearAmount: amt}})
   }
 
+  function increaseAllowance(event) {
+    console.log("increase allowance called in add liquidity")
+    // incAllowance(inputs.state.swap.in)
+  }
+
   return (
     <>
       <Modal show={inputs.state.addLiquidityModal.isVisible} onHide={toggleModalVisibility}>
@@ -59,6 +64,7 @@ export default function CurrencySelectionModal(props) {
               <div className="input-group-lg mb-1">
                 <input
                   type="text"
+                  value={tokenInputAmount}
                   className="form-control border-0 bg-transparent"
                   placeholder="0.0"
                   onChange={calcNearAmt}
@@ -67,20 +73,33 @@ export default function CurrencySelectionModal(props) {
             </div>
           </InputBox>
           <p className="mt-2 mb-1 text-center lead">+ {convertToE24Base5Dec(inputs.state.addLiquidityModal.requiredNearAmount)} NEAR</p>
-          <Row className="text-center py-2">
+          <Row className="text-center pt-2">
             <Col>
               <small className="text-secondary">Allowance</small>
-              <br/>
-              0.0
             </Col>
             <Col>
               <small className="text-secondary">{inputs.state.addLiquidityModal.selectedTokenSymbol} per NEAR</small>
-              <br/>
-              {convertToE24Base5Dec(tokenInputAmount / inputs.state.addLiquidityModal.requiredNearAmount)}
             </Col>
             <Col>
               <small className="text-secondary">NEAR per {inputs.state.addLiquidityModal.selectedTokenSymbol}</small>
+            </Col>
+          </Row>
+          <Row className="text-center pb-2">
+            <Col className="align-self-center">
+              {inputs.state.addLiquidityModal.selectedTokenAllowance}
               <br/>
+              {((tokenInputAmount > 0) && (inputs.state.addLiquidityModal.selectedTokenAllowance < tokenInputAmount))
+                && <Button
+                      size="sm"
+                      variant="warning"
+                      onClick={increaseAllowance}
+                      >Increase to {tokenInputAmount}</Button>
+              }
+            </Col>
+            <Col className="align-self-center">
+              {convertToE24Base5Dec(tokenInputAmount / inputs.state.addLiquidityModal.requiredNearAmount)}
+            </Col>
+            <Col className="align-self-center">
               {convertToE24Base5Dec(inputs.state.addLiquidityModal.requiredNearAmount / tokenInputAmount)}
             </Col>
           </Row>
