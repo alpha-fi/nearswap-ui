@@ -1,4 +1,5 @@
 import { Contract } from 'near-api-js'
+import BN from 'bn.js'
 
 const e22 = '0'.repeat(22);
 const maxGas = '300000000000000';
@@ -400,8 +401,9 @@ export async function calcNearAddLiquidity(tokenDetails) {
     tokens_out: normalizeAmount("1")
   });
 
-  const nearRequired = tokenDetails.amount * unitPrice;
-  return nearRequired;
+  var nearRequired = new BN(unitPrice).mul(new BN(tokenDetails.amount));
+  return nearRequired.toString();
+
 }
 
 export async function addLiquiduty(tokenDetails, maxTokenAmount, minSharesAmount) {
