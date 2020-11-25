@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 
-import { convertToE24Base5Dec } from "../services/near-nep21-util";
+import { convertToE24Base5Dec, getAllowance } from "../services/near-nep21-util";
 
 import { TokenListContext } from "../contexts/TokenListContext";
 import { InputsContext } from "../contexts/InputsContext";
@@ -37,11 +37,14 @@ export default function PoolInfoCard(props) {
   // Inputs state
   const inputs = useContext(InputsContext);
 
-  function handleAddLiquidityModal(tokenName, tokenSymbol) {
+  async function handleAddLiquidityModal(tokenName, tokenSymbol) {
+    let token = {address: tokenName};
+    let allowance = await getAllowance(token);
     inputs.dispatch({ type: 'TOGGLE_ADD_LIQUIDITY_MODAL' });
     inputs.dispatch({ type: 'UPDATE_LIQUDITY_MODAL_SELECTED_CURRENCY', payload: {
       selectedTokenName: tokenName,
-      selectedTokenSymbol: tokenSymbol
+      selectedTokenSymbol: tokenSymbol,
+      selectedTokenAllowance: allowance
     }})
   }
 

@@ -48,6 +48,7 @@ let initialState = {
     isVisible: false,
     selectedTokenName: "",
     selectedTokenSymbol: "",
+    selectedTokenAllowance: "",
     requiredNearAmount: 0,
   }
 };
@@ -220,6 +221,7 @@ function reduce(state, action) {
       return produce(state, draft => {
         draft.addLiquidityModal.selectedTokenName = action.payload.selectedTokenName;
         draft.addLiquidityModal.selectedTokenSymbol = action.payload.selectedTokenSymbol;
+        draft.addLiquidityModal.selectedTokenAllowance = action.payload.selectedTokenAllowance;
       });
 
     case 'UPDATE_ADD_LIQUIDITY_REQUIRED_NEAR_AMOUNT':
