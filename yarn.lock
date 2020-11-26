@@ -11059,6 +11059,11 @@
   "resolved" "https://registry.npmjs.org/word-wrap/-/word-wrap-1.2.3.tgz"
   "version" "1.2.3"
 
+"wouter@^2.6.0":
+  "integrity" "sha512-J/w7xunD7Xu9+ca0T+DUz98jsLwolvfOhTqRyzW/Ws/EazFd5eRWbRX7kwcU1c82zIAayf83hPcmRowW/OJ9+g=="
+  "resolved" "https://registry.npmjs.org/wouter/-/wouter-2.6.0.tgz"
+  "version" "2.6.0"
+
 "wrap-ansi@^5.1.0":
   "integrity" "sha512-QC1/iN/2/RPVJ5jYK8BGttj5z83LmSKmvbvrXPNCLZSEb32KKVDJDl/MOt2N01qU2H/FkzEa9PKto1BqDjtd7Q=="
   "resolved" "https://registry.npmjs.org/wrap-ansi/-/wrap-ansi-5.1.0.tgz"
