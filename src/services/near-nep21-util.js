@@ -4,7 +4,7 @@ import BN from 'bn.js'
 const e22 = '0'.repeat(22);
 const maxGas = '300000000000000';
 const attach60NearCents = '6' + e22;
-const nep21AllowanceFee = '4' + e22;
+const nep21AllowanceFee = '7' + e22;
 const NDENOM = 1e24;
 const nativeToken = "NATIVE TOKEN";
 const nep21 = "NEP-21";

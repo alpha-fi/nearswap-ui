@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 
-import { calcNearAddLiquidity, convertToE24Base5Dec, incAllowance } from "../services/near-nep21-util";
+import { calcNearAddLiquidity, convertToE24Base5Dec, incAllowance, addLiquidity } from "../services/near-nep21-util";
 
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
@@ -27,7 +27,7 @@ export default function CurrencySelectionModal(props) {
   const inputs = useContext(InputsContext);
   const { dispatch } = inputs;
 
-  const [tokenInputAmount, setTokenInputAmount] = useState();
+  const [tokenInputAmount, setTokenInputAmount] = useState("");
 
   const toggleModalVisibility = () => {
     dispatch({ type: 'TOGGLE_ADD_LIQUIDITY_MODAL' });
@@ -50,15 +50,14 @@ export default function CurrencySelectionModal(props) {
       address: inputs.state.addLiquidityModal.selectedTokenName,
       amount: tokenInputAmount
     }
-    console.log(token)
-    // incAllowance(token)
+    incAllowance(token);
   }
 
   function handleAddLiquidity() {
     let token = {
       address: inputs.state.addLiquidityModal.selectedTokenName
     }
-    addLiquidity(token, tokenInputAmount)
+    addLiquidity(token, tokenInputAmount, 0);
   }
 
   return (
@@ -120,7 +119,7 @@ export default function CurrencySelectionModal(props) {
           <Button
             variant="warning"
             onClick={toggleModalVisibility}
-            disabled={!((tokenInputAmount > 0) && (inputs.state.addLiquidityModal.selectedTokenAllowance >= tokenInputAmount))}
+            disabled={((tokenInputAmount <= 0) || (inputs.state.addLiquidityModal.selectedTokenAllowance < tokenInputAmount))}
           >
             Add liquidity
           </Button>
