@@ -37,6 +37,24 @@ export async function calcSlippage(tokenProvide, tokenWant) {
 
 }
 
+export async function calcPerToken(token) {
+
+  const unitPrice = await window.contract.price_near_to_token_out({
+    token: token.address,
+    tokens_out: normalizeAmount("1")
+  });
+  return unitPrice;
+}
+
+export async function calcPerNear(token) {
+
+  const unitPrice = await window.contract.price_token_to_near_out({
+    token: token.address,
+    ynear_out: normalizeAmount("1")
+  });
+  return unitPrice;
+}
+
 export async function incAllowance(swapLeg) {
 
   if (swapLeg.amount==""||swapLeg.amount=="0".repeat(24)) {
