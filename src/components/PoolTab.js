@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 
-import { convertToE24Base, browsePools, poolInfo, sharesBalance } from "../services/near-nep21-util";
+import { convertToE24Base, browsePools, poolInfo, sharesBalance, calcPerToken, calcPerNear } from "../services/near-nep21-util";
 
 import PoolInfoCard from "./PoolInfoCard"
 import AddLiquidityModal from "./AddLiquidityModal"
@@ -38,10 +38,20 @@ export default function PoolTab() {
             }
           }
 
+          // Find token per NEAR and vice versa
+          let perToken = await calcPerToken(tokenAddress);
+          let perNear = await calcPerNear(tokenAddress);
+
           // Find personal shares of pool
           let myShares = await sharesBalance(tokenAddress);
 
-          setPools(pools => [...pools, {...poolInfo, name: tokenAddress, symbol: tokenSymbol, my_shares: myShares }]);
+          setPools(pools => [...pools, {...poolInfo,
+            name: tokenAddress,
+            symbol: tokenSymbol,
+            my_shares: myShares,
+            near_per_token: perToken,
+            token_per_near: perNear
+          }]);
         });
       });
     });
@@ -65,6 +75,8 @@ export default function PoolTab() {
                     name={pool.name}
                     symbol={pool.symbol}
                     my_shares={pool.my_shares}
+                    near_per_token={pool.near_per_token}
+                    token_per_near={pool.token_per_near}
                     />
       ))}
       <AddLiquidityModal/>

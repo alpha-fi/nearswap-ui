@@ -44,7 +44,9 @@ export default function PoolInfoCard(props) {
     inputs.dispatch({ type: 'UPDATE_LIQUDITY_MODAL_SELECTED_CURRENCY', payload: {
       selectedTokenName: tokenName,
       selectedTokenSymbol: tokenSymbol,
-      selectedTokenAllowance: allowance
+      selectedTokenAllowance: allowance,
+      nearPerToken: props.near_per_token,
+      tokenPerNear: props.token_per_near
     }})
   }
 

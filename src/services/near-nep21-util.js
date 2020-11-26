@@ -37,19 +37,19 @@ export async function calcSlippage(tokenProvide, tokenWant) {
 
 }
 
-export async function calcPerToken(token) {
+export async function calcPerToken(tokenAddress) {
 
   const unitPrice = await window.contract.price_near_to_token_out({
-    token: token.address,
+    token: tokenAddress,
     tokens_out: normalizeAmount("1")
   });
   return unitPrice;
 }
 
-export async function calcPerNear(token) {
+export async function calcPerNear(tokenAddress) {
 
   const unitPrice = await window.contract.price_token_to_near_out({
-    token: token.address,
+    token: tokenAddress,
     ynear_out: normalizeAmount("1")
   });
   return unitPrice;
