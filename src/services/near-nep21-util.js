@@ -452,11 +452,11 @@ export async function poolInfo(pool) {
   }
 }
 
-// eturns the owner balance of shares of a pool identified by token.
-export async function sharesBalance(token) {
+// returns the owner balance of shares of a pool identified by token.
+export async function sharesBalance(tokenAddress) {
   const bal = await window.contract.balance_of({
-    token: token.address,
-    owner: window.walletConnection.account()
+    token: tokenAddress,
+    owner: window.accountId
   });
   return bal;
 }

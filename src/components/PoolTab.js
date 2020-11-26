@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 
-import { convertToE24Base, browsePools, poolInfo } from "../services/near-nep21-util";
+import { convertToE24Base, browsePools, poolInfo, sharesBalance } from "../services/near-nep21-util";
 
 import PoolInfoCard from "./PoolInfoCard"
 import AddLiquidityModal from "./AddLiquidityModal"
@@ -23,7 +23,7 @@ export default function PoolTab() {
     .then(function(fetchedPools) {
       fetchedPools.map((fetchedPoolInfo, index) => {
         poolInfo(fetchedPoolInfo)
-        .then(function(poolInfo) {
+        .then(async function(poolInfo) {
           // Set state to an array of pools and include the name of the pool
           // @TODO: find token within TokenListContext and include images, etc.
 
@@ -38,7 +38,10 @@ export default function PoolTab() {
             }
           }
 
-          setPools(pools => [...pools, {...poolInfo, name: tokenAddress, symbol: tokenSymbol}]);
+          // Find personal shares of pool
+          let myShares = await sharesBalance(tokenAddress);
+
+          setPools(pools => [...pools, {...poolInfo, name: tokenAddress, symbol: tokenSymbol, my_shares: myShares }]);
         });
       });
     });
@@ -61,6 +64,7 @@ export default function PoolTab() {
                     total_shares={pool.total_shares} 
                     name={pool.name}
                     symbol={pool.symbol}
+                    my_shares={pool.my_shares}
                     />
       ))}
       <AddLiquidityModal/>

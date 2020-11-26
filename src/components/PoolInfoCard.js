@@ -70,8 +70,12 @@ export default function PoolInfoCard(props) {
                   </thead>
                   <tbody>
                     <tr>
-                      <td><ColoredThemeText>Reserve Amount</ColoredThemeText></td>
-                      <td className="amount"><ColoredThemeText>{convertToE24Base5Dec(props.reserve)}</ColoredThemeText></td>
+                      <td>Reserve Amount</td>
+                      <td className="amount">{convertToE24Base5Dec(props.reserve)}</td>
+                    </tr>
+                    <tr>
+                      <td><ColoredThemeText>My shares</ColoredThemeText></td>
+                      <td className="amount"><ColoredThemeText>{convertToE24Base5Dec(props.my_shares)}</ColoredThemeText></td>
                     </tr>
                     <tr>
                       <td>Total shares</td>
@@ -83,7 +87,6 @@ export default function PoolInfoCard(props) {
               <Col className="my-auto text-center" xs={12} sm={4}>
                 <Button variant="warning" size="sm" className="mr-1 mb-1" onClick={(e) => handleAddLiquidityModal(props.name, props.symbol)}>Add liquidity</Button>
                 <Button variant="warning" size="sm" className="mr-1 mb-1" disabled>Swap</Button>
-                <Button variant="warning" size="sm" className="mr-1 mb-1" disabled>Details</Button>
               </Col>
             </Row>
           </div>
