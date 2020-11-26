@@ -19,43 +19,38 @@ export default function PoolTab() {
   const tokenListState = useContext(TokenListContext);
 
   async function fetchPools() {
-    browsePools()
-    .then(function(fetchedPools) {
-      fetchedPools.map((fetchedPoolInfo, index) => {
-        poolInfo(fetchedPoolInfo)
-        .then(async function(poolInfo) {
-          // Set state to an array of pools and include the name of the pool
-          // @TODO: find token within TokenListContext and include images, etc.
-
-          let tokenAddress = fetchedPools[index];
-          
-          // Find token symbol
-          let tokenSymbol;
-          for (let i = 0; i < tokenListState.state.tokens.length; i++) {
-            if (tokenListState.state.tokens[i].address === tokenAddress) {
-              tokenSymbol = tokenListState.state.tokens[i].symbol;
-              break;
-            }
+    const pools = await browsePools();
+      for (let tokenAddress of pools) {
+        const pi = await poolInfo(tokenAddress);
+        // Set state to an array of pools and include the name of the pool
+        // @TODO: find token within TokenListContext and include images, etc.
+        
+        // Find token symbol
+        let tokenSymbol;
+        for (let i = 0; i < tokenListState.state.tokens.length; i++) {
+          if (tokenListState.state.tokens[i].address === tokenAddress) {
+            tokenSymbol = tokenListState.state.tokens[i].symbol;
+            break;
           }
+        }
 
-          // Find token per NEAR and vice versa
-          let perToken = await calcPerToken(tokenAddress);
-          let perNear = await calcPerNear(tokenAddress);
+        // Find token per NEAR and vice versa
+        let perToken = await calcPerToken(tokenAddress);
+        let perNear = await calcPerNear(tokenAddress);
 
-          // Find personal shares of pool
-          let myShares = await sharesBalance(tokenAddress);
+        // Find personal shares of pool
+        let myShares = await sharesBalance(tokenAddress);
 
-          setPools(pools => [...pools, {...poolInfo,
-            name: tokenAddress,
-            symbol: tokenSymbol,
-            my_shares: myShares,
-            near_per_token: perToken,
-            token_per_near: perNear
-          }]);
-        });
-      });
-    });
+        setPools(pools => [...pools, {...pi,
+          name: tokenAddress,
+          symbol: tokenSymbol,
+          my_shares: myShares,
+          near_per_token: perToken,
+          token_per_near: perNear
+        }]);
+    }
   }
+
 
   //----------------------------
   //----------------------------
