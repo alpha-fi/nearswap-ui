@@ -406,10 +406,10 @@ export async function calcNearAddLiquidity(tokenDetails) {
 
 }
 
-export async function addLiquiduty(tokenDetails, maxTokenAmount, minSharesAmount) {
+export async function addLiquidity(tokenDetails, maxTokenAmount, minSharesAmount) {
   await window.contract.add_liquidity({
     token: tokenDetails.address,
-    max_tokens: maxTokenAmount,
+    max_tokens: toYoctosString(maxTokenAmount),
     min_shares: minSharesAmount
   },
     maxGas,

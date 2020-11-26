@@ -57,7 +57,7 @@ export default function CurrencySelectionModal(props) {
     let token = {
       address: inputs.state.addLiquidityModal.selectedTokenName
     }
-    addLiquidity(token, tokenInputAmount, 0);
+    addLiquidity(token, tokenInputAmount, String(0.0)); // this weird casting is needed otherwise it will convert to int and fail
   }
 
   return (
@@ -118,7 +118,7 @@ export default function CurrencySelectionModal(props) {
         <Modal.Footer>
           <Button
             variant="warning"
-            onClick={toggleModalVisibility}
+            onClick={handleAddLiquidity}
             disabled={((tokenInputAmount <= 0) || (inputs.state.addLiquidityModal.selectedTokenAllowance < tokenInputAmount))}
           >
             Add liquidity
