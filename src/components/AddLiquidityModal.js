@@ -31,6 +31,7 @@ export default function CurrencySelectionModal(props) {
 
   const toggleModalVisibility = () => {
     dispatch({ type: 'TOGGLE_ADD_LIQUIDITY_MODAL' });
+    setTokenInputAmount("");
   };
 
   async function calcNearAmt(event) {
@@ -38,15 +39,26 @@ export default function CurrencySelectionModal(props) {
     setTokenInputAmount(inputAmount);
     let token = {
       address: inputs.state.addLiquidityModal.selectedTokenName,
-      amount: event.target.value
+      amount: inputAmount
     }
     let amt = await calcNearAddLiquidity(token);
     dispatch({type:'UPDATE_ADD_LIQUIDITY_REQUIRED_NEAR_AMOUNT', payload: {requiredNearAmount: amt}})
   }
 
-  function increaseAllowance(event) {
-    console.log("increase allowance called in add liquidity")
-    // incAllowance(inputs.state.swap.in)
+  function increaseAllowance() {
+    let token = {
+      address: inputs.state.addLiquidityModal.selectedTokenName,
+      amount: tokenInputAmount
+    }
+    console.log(token)
+    // incAllowance(token)
+  }
+
+  function handleAddLiquidity() {
+    let token = {
+      address: inputs.state.addLiquidityModal.selectedTokenName
+    }
+    addLiquidity(token, tokenInputAmount)
   }
 
   return (
@@ -93,7 +105,7 @@ export default function CurrencySelectionModal(props) {
                       size="sm"
                       variant="warning"
                       onClick={increaseAllowance}
-                      >Increase to {tokenInputAmount}</Button>
+                      ><small>Increase to {tokenInputAmount}</small></Button>
               }
             </Col>
             <Col className="align-self-center">
@@ -105,7 +117,11 @@ export default function CurrencySelectionModal(props) {
           </Row>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="warning" onClick={toggleModalVisibility} disabled>
+          <Button
+            variant="warning"
+            onClick={toggleModalVisibility}
+            disabled={!((tokenInputAmount > 0) && (inputs.state.addLiquidityModal.selectedTokenAllowance >= tokenInputAmount))}
+          >
             Add liquidity
           </Button>
           <Button variant="secondary" onClick={toggleModalVisibility}>
