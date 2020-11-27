@@ -2,6 +2,8 @@ import 'regenerator-runtime/runtime'
 import React from 'react'
 import './global.css'
 
+import { Link, Route, Switch, Redirect } from "wouter"
+
 import { Web3Context } from './contexts/Web3Context';
 
 import Container from 'react-bootstrap/Container';
@@ -64,12 +66,15 @@ export default function App() {
                 <Notification/>
                 <Tab.Container defaultActiveKey="swap">
                   <Nav justify className="border-0 mb-3">
-                    <Nav.Link eventKey="swap"><BsArrowLeftRight/>{' '}Swap</Nav.Link>
-                    <Nav.Link eventKey="pool"><BsDropletFill/>{' '}Pool</Nav.Link>
+                    <Link href="swap"><Nav.Link eventKey="swap"><BsArrowLeftRight/>{' '}Swap</Nav.Link></Link>
+                    <Link href="pool"><Nav.Link eventKey="pool"><BsDropletFill/>{' '}Pool</Nav.Link></Link>
                   </Nav>
                   <Tab.Content animation="true">
-                    <Tab.Pane eventKey="swap"><SwapTab/></Tab.Pane>
-                    <Tab.Pane eventKey="pool"><PoolTab/></Tab.Pane>
+                    <Switch>
+                      <Route exact path="/"><Redirect to="/swap" /></Route>
+                      <Route path="/swap" component={SwapTab}></Route>
+                      <Route path="/pool" component={PoolTab}></Route>
+                    </Switch>
                   </Tab.Content>
                 </Tab.Container>
                 <br/>

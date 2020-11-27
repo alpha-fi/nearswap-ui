@@ -4,7 +4,7 @@ import BN from 'bn.js'
 const e22 = '0'.repeat(22);
 const maxGas = '300000000000000';
 const attach60NearCents = '6' + e22;
-const nep21AllowanceFee = '4' + e22;
+const nep21AllowanceFee = '7' + e22;
 const NDENOM = 1e24;
 const nativeToken = "NATIVE TOKEN";
 const nep21 = "NEP-21";
@@ -35,6 +35,24 @@ export async function calcSlippage(tokenProvide, tokenWant) {
   console.log("Slippage: ", slippage);
   return slippage;
 
+}
+
+export async function calcPerToken(tokenAddress) {
+
+  const unitPrice = await window.contract.price_near_to_token_out({
+    token: tokenAddress,
+    tokens_out: normalizeAmount("1")
+  });
+  return unitPrice;
+}
+
+export async function calcPerNear(tokenAddress) {
+
+  const unitPrice = await window.contract.price_token_to_near_out({
+    token: tokenAddress,
+    ynear_out: normalizeAmount("1")
+  });
+  return unitPrice;
 }
 
 export async function incAllowance(swapLeg) {
@@ -406,10 +424,10 @@ export async function calcNearAddLiquidity(tokenDetails) {
 
 }
 
-export async function addLiquiduty(tokenDetails, maxTokenAmount, minSharesAmount) {
+export async function addLiquidity(tokenDetails, maxTokenAmount, minSharesAmount) {
   await window.contract.add_liquidity({
     token: tokenDetails.address,
-    max_tokens: maxTokenAmount,
+    max_tokens: toYoctosString(maxTokenAmount),
     min_shares: minSharesAmount
   },
     maxGas,
@@ -452,11 +470,11 @@ export async function poolInfo(pool) {
   }
 }
 
-// eturns the owner balance of shares of a pool identified by token.
-export async function sharesBalance(token) {
+// returns the owner balance of shares of a pool identified by token.
+export async function sharesBalance(tokenAddress) {
   const bal = await window.contract.balance_of({
-    token: token.address,
-    owner: window.walletConnection.account()
+    token: tokenAddress,
+    owner: window.accountId
   });
   return bal;
 }

@@ -43,6 +43,15 @@ let initialState = {
   currencySelectionModal: {
     isVisible: false,
     selectedInput: ""
+  },
+  addLiquidityModal: {
+    isVisible: false,
+    selectedTokenName: "",
+    selectedTokenSymbol: "",
+    selectedTokenAllowance: "",
+    requiredNearAmount: 0,
+    tokenPerNear: "",
+    nearPerToken: "",
   }
 };
 
@@ -202,6 +211,26 @@ function reduce(state, action) {
     case 'TOGGLE_CURRENCY_SELECTION_MODAL':
       return produce(state, draft => {
         draft.currencySelectionModal.isVisible = !state.currencySelectionModal.isVisible;
+      });
+
+    case 'TOGGLE_ADD_LIQUIDITY_MODAL':
+      return produce(state, draft => {
+        draft.addLiquidityModal.isVisible = !state.addLiquidityModal.isVisible;
+        draft.addLiquidityModal.requiredNearAmount = 0;
+      });
+
+    case 'UPDATE_LIQUDITY_MODAL_SELECTED_CURRENCY':
+      return produce(state, draft => {
+        draft.addLiquidityModal.selectedTokenName = action.payload.selectedTokenName;
+        draft.addLiquidityModal.selectedTokenSymbol = action.payload.selectedTokenSymbol;
+        draft.addLiquidityModal.selectedTokenAllowance = action.payload.selectedTokenAllowance;
+        draft.addLiquidityModal.tokenPerNear = action.payload.tokenPerNear;
+        draft.addLiquidityModal.nearPerToken = action.payload.nearPerToken;
+      });
+
+    case 'UPDATE_ADD_LIQUIDITY_REQUIRED_NEAR_AMOUNT':
+      return produce(state, draft => {
+        draft.addLiquidityModal.requiredNearAmount = action.payload.requiredNearAmount;
       });
 
     case 'UPDATE_SWAP_APPROVAL':

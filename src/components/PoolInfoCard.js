@@ -1,8 +1,9 @@
 import React, { useContext, useEffect } from "react";
 
-import { convertToE24Base5Dec } from "../services/near-nep21-util";
+import { convertToE24Base5Dec, getAllowance } from "../services/near-nep21-util";
 
 import { TokenListContext } from "../contexts/TokenListContext";
+import { InputsContext } from "../contexts/InputsContext";
 
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -33,6 +34,22 @@ export default function PoolInfoCard(props) {
   // Token list state (used to get image)
   const tokenListState = useContext(TokenListContext);
 
+  // Inputs state
+  const inputs = useContext(InputsContext);
+
+  async function handleAddLiquidityModal(tokenName, tokenSymbol) {
+    let token = {address: tokenName};
+    let allowance = await getAllowance(token);
+    inputs.dispatch({ type: 'TOGGLE_ADD_LIQUIDITY_MODAL' });
+    inputs.dispatch({ type: 'UPDATE_LIQUDITY_MODAL_SELECTED_CURRENCY', payload: {
+      selectedTokenName: tokenName,
+      selectedTokenSymbol: tokenSymbol,
+      selectedTokenAllowance: allowance,
+      nearPerToken: props.near_per_token,
+      tokenPerNear: props.token_per_near
+    }})
+  }
+
   return (
     <>
       <Theme className="py-2 mb-2 mt-1">
@@ -55,8 +72,12 @@ export default function PoolInfoCard(props) {
                   </thead>
                   <tbody>
                     <tr>
-                      <td><ColoredThemeText>Reserve Amount</ColoredThemeText></td>
-                      <td className="amount"><ColoredThemeText>{convertToE24Base5Dec(props.reserve)}</ColoredThemeText></td>
+                      <td>Reserve Amount</td>
+                      <td className="amount">{convertToE24Base5Dec(props.reserve)}</td>
+                    </tr>
+                    <tr>
+                      <td><ColoredThemeText>My shares</ColoredThemeText></td>
+                      <td className="amount"><ColoredThemeText>{convertToE24Base5Dec(props.my_shares)}</ColoredThemeText></td>
                     </tr>
                     <tr>
                       <td>Total shares</td>
@@ -66,9 +87,8 @@ export default function PoolInfoCard(props) {
                 </Table>
               </Col>
               <Col className="my-auto text-center" xs={12} sm={4}>
-                <Button variant="warning" size="sm" className="mr-1 mb-1" disabled>Add liquidity</Button>
+                <Button variant="warning" size="sm" className="mr-1 mb-1" onClick={(e) => handleAddLiquidityModal(props.name, props.symbol)}>Add liquidity</Button>
                 <Button variant="warning" size="sm" className="mr-1 mb-1" disabled>Swap</Button>
-                <Button variant="warning" size="sm" className="mr-1 mb-1" disabled>Details</Button>
               </Col>
             </Row>
           </div>
