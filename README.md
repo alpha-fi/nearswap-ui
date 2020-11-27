@@ -12,9 +12,9 @@ NEARswap is part of [NEAR-CLP](https://github.com/near-clp/contracts) - a set of
 To run this project locally:
 
 1. Prerequisites: Make sure you've installed Node.js ≥ 14 and Yarn >= 1.22
-2. Install dependencies: `yarn install`
-3. Run the local development server: `yarn dev` (see `package.json` for a
-   full list of `scripts` you can run with `yarn`)
+2. Install dependencies: `npm install`
+3. Run the local development server: `npm run start` (see `package.json` for a
+   full list of `scripts` you can run with `npm`)
 
 Now you'll have a local development environment backed by the NEAR TestNet!
 
@@ -23,15 +23,15 @@ Go ahead and play with the app and the code. As you make code changes, the app w
 
 ## Develop
 
-Every smart contract in NEAR has its [own associated account][NEAR accounts]. When you run `yarn dev`, your smart contract gets deployed to the live NEAR TestNet with a throwaway account. When you're ready to make it permanent, here's how.
+Every smart contract in NEAR has its [own associated account][NEAR accounts]. When you run `npm run start`, your smart contract gets deployed to the live NEAR TestNet with a throwaway account. When you're ready to make it permanent, here's how.
 
 
 ### Step 0: Install near-cli (optional)
 
 
-[near-cli] is a command line interface (CLI) for interacting with the NEAR blockchain. It was installed to the local `node_modules` folder when you ran `yarn install`, but for best ergonomics you may want to install it globally:
+[near-cli] is a command line interface (CLI) for interacting with the NEAR blockchain. It was installed to the local `node_modules` folder when you ran `npm install`, but for best ergonomics you may want to install it globally:
 
-    yarn install --global near-cli
+    npm install --global near-cli
 
 Or, if you'd rather use the locally-installed version, you can prefix all `near` commands with `npx`
 
@@ -63,7 +63,7 @@ Modify the line in `src/config.js` that sets the account name of the contract. S
 
 One command:
 
-    yarn deploy
+    npm run deploy
 
 As you can see in `package.json`, this does two things:
 
