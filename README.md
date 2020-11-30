@@ -74,4 +74,10 @@ As you can see in `package.json`, this does two things:
 LICENSE
 ==========
 
-See [LICENSE](./LICENSE) file.
+We create foundations for DeFi, hence an open access is the key.
+
+We build the Open Source software and knowledge base. All our work is licensed with a Mozilla Public License (MPL) version 2.0. Refer to [LICENSE](LICENSE) for terms.
+
+The MPL is a simple copyleft license. The MPL's "file-level" copyleft is designed to encourage contributors to share modifications they make to your code, while still allowing them to combine your code with code under other licenses (open or proprietary) with minimal restrictions.
+
+[Authors](https://github.com/robert-zaremba/near-clp/graphs/contributors)
