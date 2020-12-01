@@ -577,16 +577,7 @@ export default function SwapInputCards(props) {
 
       <div className="text-right my-2 pr-2">
 
-        <small className="text-danger mr-1 text-center">{inputs.state.swap.error}</small>
-
-        {/* Display textual information before user swaps */}
-        {!inputs.state.swap.error &&
-          <small className="text-secondary">
-            You'll get <b className="text-black">{inputs.state.swap.out.amount}</b> {inputs.state.swap.out.symbol}{' '} 
-            for <b className="text-black">{convertToE24Base5Dec(inputs.state.swap.in.amount)}</b> {inputs.state.swap.in.symbol}.
-          </small>
-        }
-        
+        <small className="text-danger mr-1 text-center">{inputs.state.swap.error}</small>        
 
         {/* Clear button and clippage */}
           <small className="mx-2 text-secondary">Slippage: 1%</small>
