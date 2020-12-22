@@ -2,8 +2,8 @@ import { connect, Contract, keyStores, WalletConnection } from 'near-api-js'
 import getConfig from './config'
 import { view_methods_lib_contract, call_methods_lib_contract } from './assets/contractMethods'
 
-const nearConfig = getConfig(process.env.NODE_ENV || 'development')
-
+const nearConfig = getConfig();
+console.log("Near Config: " , nearConfig);
 // Initialize contract & set global variables
 export async function initContract() {
   // Initialize connection to the NEAR testnet
