@@ -21,6 +21,24 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
     <script src="https://ghcdn.rawgit.org/near-clp/nearswap-ui/master/src/config.json"></script>
+    <script>
+      switch(window.config.nearNetworkId) {
+        case 'betanet':
+          src = "";
+          break;
+        case 'guildnet':
+          src = "";
+          break;
+        case 'mainnet':
+          src = "";
+          break;
+        case 'testnet':
+          src = "";
+          break;
+        default:
+          break;
+      }
+    </script>
     <script src="./index.js"></script>
   </body>
 </html>
