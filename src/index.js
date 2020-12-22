@@ -53,7 +53,7 @@ async function initToken() {
     window.tokens = tokens
     break;
   case 'testnet':
-    var tokens = await fetchJson("https://ghcdn.rawgit.org/amityadav0/Test/master/token.json")
+    var tokens = await fetchJson("https://ghcdn.rawgit.org/near-clp/token-list/master/test-net.json")
     window.tokens = tokens
     break;
   default:
