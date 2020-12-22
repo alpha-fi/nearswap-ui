@@ -2,12 +2,12 @@
 function getConfig() {
 
     return {
-      networkId: window.config.networkId,
-      nodeUrl: window.config.nodeUrl,
+      networkId: window.config.nearNetworkId,
+      nodeUrl: window.config.nearNodeUrl,
       contractName: window.config.contractName,
-      walletUrl: window.config.walletUrl,
-      helperUrl: window.config.helperUrl,
-      explorerUrl: window.config.explorerUrl
+      walletUrl: window.config.nearWalletUrl,
+      helperUrl: window.config.nearHelperUrl,
+      explorerUrl: window.config.nearExplorerUrl
     }
 }
 

@@ -1,17 +1,15 @@
-import React, { createContext, useContext, useReducer } from 'react';
-import { Web3Context } from "../contexts/Web3Context";
+import React, { createContext, useReducer } from 'react';
 import produce from 'immer';
 
-const initialState = window.tokens.tokenList;
+let TokenListContext;
 
-const TokenListContext = createContext(initialState);
-
-const { Provider } = TokenListContext;
-
-//-------------------------------------------
-//-------------------------------------------
-//-------------------------------------------
 const TokenListProvider = ({ children }) => {
+
+  let initialState = {tokens: window.tokens};
+
+  TokenListContext = createContext(initialState);
+
+  const { Provider } = TokenListContext;
 
   function reducer(state, action) {
 
@@ -66,13 +64,6 @@ const TokenListProvider = ({ children }) => {
   //       throw new Error();
   //   };
   // }, initialState);
-
-  // Web3 state
-  const web3State = useContext(Web3Context);
-  const { currentUser, web3Modal } = web3State;
-
-  // Token list state
-  const tokenListState = useContext(TokenListContext);
 
   return <Provider value={{ state, dispatch }}>{children}</Provider>;
 }
