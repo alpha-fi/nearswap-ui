@@ -5,6 +5,8 @@
 
 NEARswap is part of [NEAR-CLP](https://github.com/near-clp/contracts) - a set of protocols for decentralized finance. With a ground research and solid experience in smart-contract development we define our mission to provide common goods for NEAR DeFi.
 
+Our latest testnet is deployed at: **[nearswap-testnet](https://siasky.net/AABvmlmiU1K8xyo1aLO_57kpzP9vxF0j07vYD2ElFVyDhQ/)**
+
 
 ## Quick Start
 
