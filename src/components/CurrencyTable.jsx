@@ -229,13 +229,13 @@ export const CurrencyTable = () => {
         <Tr key={index} onClick={() => handleCurrencyChange(index)}>
           <td>
             {/* Determine whether each token logo is served over HTTP/HTTPS or IPFS */}
-            {tokenListState.state.tokens[index].logoURI.startsWith('ipfs://')
+            {tokenListState.state.tokens[index].logoURL.startsWith('ipfs://')
               ?
               // Token image is served over IPFS
-              <img src={process.env.REACT_APP_IPFS_GATEWAY + token.logoURI.substring(7)} width="25px" />
+              <img src={process.env.REACT_APP_IPFS_GATEWAY + token.logoURL.substring(7)} width="25px" />
               :
               // Token image is served over HTTP/HTTPS
-              <img src={token.logoURI} width="25px" />
+              <img src={token.logoURL} width="25px" />
             }
           </td>
           <td>
