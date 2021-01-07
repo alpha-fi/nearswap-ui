@@ -20,16 +20,6 @@ const TokenListProvider = ({ children }) => {
           draft.tokens[action.payload.tokenIndex].balance = action.payload.balance;
         })
 
-      // case 'FETCH_NEAR_BALANCES':
-      //   let updatedNearTokenList = updateNearBalances(state.tokens);
-      //   return { tokenList: updatedNearTokenList };
-      //   break;
-
-      // case 'FETCH_ETH_BALANCES':
-      //   let updatedEthTokenList = updateEthBalances(state.tokens, action.payload.w3.web3, action.payload.ethAccount);
-      //   return { tokenList: updatedEthTokenList };
-      //   break;
-
       default:
         throw new Error();
     };

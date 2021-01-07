@@ -1,10 +1,6 @@
-import React, { useContext, createContext, useReducer } from 'react';
+import React, { createContext, useReducer } from 'react';
 import { produce } from 'immer';
-import { NotificationContext } from './NotificationContext';
-import { convertToE24Base5Dec } from '../services/near-nep21-util';
-import { calcPriceFromIn, calcPriceFromOut, swapFromOut, incAllowance, getAllowance } from "../services/near-nep21-util";
 import { saveInputsStateLocalStorage } from '../components/CurrencyTable';
-import { computeInAmount } from "../components/SwapInputCards";
 
 const initialInput = {
   amount: "",       // Amount of tokens

@@ -7,7 +7,7 @@
         "address": "",
         "symbol": "wETH",
         "decimals": 9,
-        "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/info/logo.png"
+        "logoURL": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/info/logo.png"
       },
       {
         "name": "Abundance",
@@ -15,7 +15,7 @@
         "address": "0x3e13318e92F0C67Ca10f0120372E998d43E6a8E8",
         "symbol": "ABND",
         "decimals": 9,
-        "logoURI": ""
+        "logoURL": ""
       },
       {
         "name": "Ampleforth",
@@ -23,7 +23,7 @@
         "address": "",
         "symbol": "AMPL",
         "decimals": 9,
-        "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xD46bA6D942050d489DBd938a2C909A5d5039A161/logo.png"
+        "logoURL": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xD46bA6D942050d489DBd938a2C909A5d5039A161/logo.png"
       },
       {
         "name": "Balancer",
@@ -31,7 +31,7 @@
         "address": "0xba100000625a3754423978a60c9317c58a424e3D",
         "symbol": "BAL",
         "decimals": 18,
-        "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xba100000625a3754423978a60c9317c58a424e3D/logo.png"
+        "logoURL": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xba100000625a3754423978a60c9317c58a424e3D/logo.png"
       },
       {
         "name": "Compound",
@@ -39,7 +39,7 @@
         "address": "0xc00e94Cb662C3520282E6f5717214004A7f26888",
         "symbol": "COMP",
         "decimals": 18,
-        "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xc00e94Cb662C3520282E6f5717214004A7f26888/logo.png"
+        "logoURL": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xc00e94Cb662C3520282E6f5717214004A7f26888/logo.png"
       }
     ]
   }
