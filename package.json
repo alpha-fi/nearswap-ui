@@ -3,9 +3,8 @@
   "version": "0.1.0",
   "license": "Apache-2.0",
   "scripts": {
-    "build": "yarn run build:web",
-    "build:web": "parcel build src/index.html --public-url ./",
-    "build:web:prod": "rm -rf dist; NODE_ENV=production parcel build src/index.html --public-url ./; rm dist/*.map",
+    "build": "parcel build src/index.html --public-url ./",
+    "build:prod": "rm -rf dist; NODE_ENV=production parcel build src/index.html --public-url ./; rm dist/*.map",
     "deploy:pages": "gh-pages -d dist/",
     "prestart": "echo OK",
     "start": "echo The app is starting! It will automatically open in your browser when ready && echo env-cmd -f ./neardev/dev-account.env && parcel serve src/index.html --open",
