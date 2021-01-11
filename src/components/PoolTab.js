@@ -1,15 +1,11 @@
 import React, { useEffect, useState, useContext } from "react";
 
-import { convertToE24Base, browsePools, poolInfo, sharesBalance, calcPerToken, calcPerNear } from "../services/near-nep21-util";
+import { browsePools, poolInfo, sharesBalance, calcPerToken, calcPerNear } from "../services/near-nep21-util";
 
 import PoolInfoCard from "./PoolInfoCard"
 import AddLiquidityModal from "./AddLiquidityModal"
 
 import { TokenListContext } from "../contexts/TokenListContext";
-
-import Button from 'react-bootstrap/Button';
-
-import { BsPlus } from "react-icons/bs";
 
 export default function PoolTab() {
 

@@ -363,6 +363,11 @@ export default function SwapInputCards(props) {
 
     try {
 
+      if(window.accountId == "") {
+        alert('Please connect to NEAR wallet first!!');
+        return;
+      }
+      
       if (!inputs.state.swap.in.isValid || !inputs.state.swap.out.isValid){
         setError("Invalid amounts")
         return

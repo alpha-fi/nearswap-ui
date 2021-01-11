@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 
 import { convertToE24Base5Dec, getAllowance } from "../services/near-nep21-util";
 
@@ -10,8 +10,6 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Image from 'react-bootstrap/Image';
 import Table from 'react-bootstrap/Table';
-
-import { CgSwap } from "react-icons/cg";
 
 import styled from "@emotion/styled";
 const Theme = styled("div")`
@@ -38,6 +36,10 @@ export default function PoolInfoCard(props) {
   const inputs = useContext(InputsContext);
 
   async function handleAddLiquidityModal(tokenName, tokenSymbol) {
+    if(window.accountId == "") {
+      alert('Please connect to NEAR wallet first!!');
+      return;
+    }
     let token = {address: tokenName};
     let allowance = await getAllowance(token);
     inputs.dispatch({ type: 'TOGGLE_ADD_LIQUIDITY_MODAL' });
