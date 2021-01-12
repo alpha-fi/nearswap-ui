@@ -35,7 +35,7 @@ export default function PoolInfoCard(props) {
   // Inputs state
   const inputs = useContext(InputsContext);
 
-  async function handleAddLiquidityModal(tokenName, tokenSymbol) {
+  async function handleAddLiquidityModal(tokenName, tokenSymbol, tokenDecimals) {
     if(window.accountId == "") {
       alert('Please connect to NEAR wallet first!!');
       return;
@@ -48,7 +48,8 @@ export default function PoolInfoCard(props) {
       selectedTokenSymbol: tokenSymbol,
       selectedTokenAllowance: allowance,
       nearPerToken: props.near_per_token,
-      tokenPerNear: props.token_per_near
+      tokenPerNear: props.token_per_near,
+      decimals: tokenDecimals
     }})
   }
 
@@ -89,7 +90,7 @@ export default function PoolInfoCard(props) {
                 </Table>
               </Col>
               <Col className="my-auto text-center" xs={12} sm={4}>
-                <Button variant="warning" size="sm" className="mr-1 mb-1" onClick={(e) => handleAddLiquidityModal(props.name, props.symbol)}>Add liquidity</Button>
+                <Button variant="warning" size="sm" className="mr-1 mb-1" onClick={(e) => handleAddLiquidityModal(props.name, props.symbol, props.decimals)}>Add liquidity</Button>
                 <Button variant="warning" size="sm" className="mr-1 mb-1" disabled>Swap</Button>
               </Col>
             </Row>

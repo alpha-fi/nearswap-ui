@@ -54,6 +54,7 @@ export function setCurrencyIndex(inputName, newTokenIndex, inputs, tokenListStat
   let newType = tokenListState.state.tokens[newTokenIndex].type;
   let newAddress = tokenListState.state.tokens[newTokenIndex].address;
   let newBalance = tokenListState.state.tokens[newTokenIndex].balance;
+  let decimals = tokenListState.state.tokens[newTokenIndex].decimals;
   let newPayload = {
     tokenIndex: newTokenIndex,
     logoUrl: newImageUrl,
@@ -62,6 +63,7 @@ export function setCurrencyIndex(inputName, newTokenIndex, inputs, tokenListStat
     address: newAddress,
     balance: newBalance,
     allowance: 0,
+    decimals: decimals
   };
 
   // Find correct input to update

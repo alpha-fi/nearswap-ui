@@ -23,9 +23,11 @@ export default function PoolTab() {
         
         // Find token symbol
         let tokenSymbol;
+        let tokenDecimals;
         for (let i = 0; i < tokenListState.state.tokens.length; i++) {
           if (tokenListState.state.tokens[i].address === tokenAddress) {
             tokenSymbol = tokenListState.state.tokens[i].symbol;
+            tokenDecimals = tokenListState.state.tokens[i].decimals;
             break;
           }
         }
@@ -42,7 +44,8 @@ export default function PoolTab() {
           symbol: tokenSymbol,
           my_shares: myShares,
           near_per_token: perToken,
-          token_per_near: perNear
+          token_per_near: perNear,
+          decimals: tokenDecimals
         }]);
     }
   }
@@ -68,6 +71,7 @@ export default function PoolTab() {
                     my_shares={pool.my_shares}
                     near_per_token={pool.near_per_token}
                     token_per_near={pool.token_per_near}
+                    decimals={pool.decimals}
                     />
       ))}
       <AddLiquidityModal/>
