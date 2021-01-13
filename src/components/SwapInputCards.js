@@ -188,7 +188,8 @@ export default function SwapInputCards(props) {
           type: newToken.type,
           tokenIndex: inputs.state.swap.in.tokenIndex,
           address: newToken.address,
-          balance: newToken.balance
+          balance: newToken.balance,
+          decimals: newToken.decimals
         }
       });
     })
@@ -216,7 +217,8 @@ export default function SwapInputCards(props) {
           type: newToken.type,
           tokenIndex: inputs.state.swap.out.tokenIndex,
           address: newToken.address,
-          balance: newToken.balance
+          balance: newToken.balance,
+          decimals: newToken.decimals
         }
       });
     })
@@ -518,6 +520,11 @@ export default function SwapInputCards(props) {
             </div>
           </Col>
         </Row>
+        <label className="ml-4 mb-1 mt-0">
+          <small className="text-secondary">
+            decimals: {inputs.state.swap.in.decimals}
+          </small>
+        </label>
       </Theme>
 
       <div className="text-center my-2">
@@ -570,6 +577,11 @@ export default function SwapInputCards(props) {
             </div>
           </Col>
         </Row>
+        <label className="ml-4 mb-1 mt-0">
+          <small className="text-secondary">
+            decimals: {inputs.state.swap.out.decimals}
+          </small>
+        </label>
       </Theme>
 
       {(inputs.state.swap.in.allowance && inputs.state.swap.in.type==="NEP-21") &&

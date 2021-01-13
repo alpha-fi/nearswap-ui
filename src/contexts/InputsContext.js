@@ -12,6 +12,7 @@ const initialInput = {
   isValid: false,   // True if non-zero number, false otherwise
   allowance: null,  // Required for NEP-21 swaps (null otherwise)
   balance: "",      // Balance of selected currency
+  decimals: 0      // Decimals for token denomination
 }
 
 let initialState = {
@@ -148,6 +149,7 @@ function reduce(state, action) {
         draft.swap.in.logoUrl = action.payload.logoUrl;
         draft.swap.in.tokenIndex = action.payload.tokenIndex;
         draft.swap.in.address = action.payload.address;
+        draft.swap.in.decimals = action.payload.decimals;
         draft.swap.in.allowance = "";
         if (action.payload.balance !== undefined) draft.swap.in.balance = action.payload.balance;
         draft.swap.needsApproval = (action.payload.type === "NEP-21");
@@ -166,6 +168,7 @@ function reduce(state, action) {
         draft.swap.out.logoUrl = action.payload.logoUrl;
         draft.swap.out.tokenIndex = action.payload.tokenIndex;
         draft.swap.out.address = action.payload.address;
+        draft.swap.out.decimals = action.payload.decimals;
         draft.swap.out.allowance = null;
         if (action.payload.balance !== undefined) draft.swap.out.balance = action.payload.balance;
         draft.swap.needsApproval = false; //(state.swap.in.type === "NEP-21");
@@ -184,6 +187,7 @@ function reduce(state, action) {
         draft.pool.input1.logoUrl = action.payload.logoUrl;
         draft.pool.input1.tokenIndex = action.payload.tokenIndex;
         draft.pool.input1.address = action.payload.address;
+        draft.pool.input1.decimals = action.payload.decimals;
         draft.pool.input1.allowance = null;
         if (action.payload.balance !== undefined) draft.pool.input1.balance = action.payload.balance;
         draft.currencySelectionModal.isVisible = false;
@@ -199,6 +203,7 @@ function reduce(state, action) {
         draft.pool.input2.logoUrl = action.payload.logoUrl;
         draft.pool.input2.tokenIndex = action.payload.tokenIndex;
         draft.pool.input2.address = action.payload.address;
+        draft.pool.input2.decimals = action.payload.decimals;
         draft.pool.input2.allowance = null;
         if (action.payload.balance !== undefined) draft.pool.input2.balance = action.payload.balance;
         draft.currencySelectionModal.isVisible = false;
@@ -222,6 +227,7 @@ function reduce(state, action) {
         draft.addLiquidityModal.selectedTokenAllowance = action.payload.selectedTokenAllowance;
         draft.addLiquidityModal.tokenPerNear = action.payload.tokenPerNear;
         draft.addLiquidityModal.nearPerToken = action.payload.nearPerToken;
+        draft.addLiquidityModal.decimals = action.payload.decimals;
       });
 
     case 'UPDATE_ADD_LIQUIDITY_REQUIRED_NEAR_AMOUNT':

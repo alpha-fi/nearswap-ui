@@ -8,10 +8,8 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
 import { InputsContext } from "../contexts/InputsContext";
-
-import { BsCaretDownFill } from "react-icons/bs";
-
 import styled from "@emotion/styled";
+
 const InputBox = styled("div")`
   color: ${props => props.theme.body};
   border: 1px solid #dee2e6;
@@ -81,6 +79,11 @@ export default function CurrencySelectionModal(props) {
               />
             </div>
           </div>
+          <label className="ml-4 mb-1 mt-0">
+          <small className="text-secondary">
+            decimals: {inputs.state.addLiquidityModal.decimals}
+          </small>
+        </label>
         </InputBox>
         <p className="mt-2 mb-1 text-center lead">+ {convertToE24Base5Dec(inputs.state.addLiquidityModal.requiredNearAmount)} NEAR</p>
         <Row className="text-center pt-2">
