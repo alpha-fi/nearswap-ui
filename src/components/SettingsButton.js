@@ -12,7 +12,7 @@ export default function SettingsButton() {
   
   // Web3 state
   const web3State = useContext(Web3Context);
-  const { currentUser, web3Modal } = web3State;
+  const { currentUser } = web3State;
 
   // Initialize connection information
   let nearConnected, ethConnected = "";

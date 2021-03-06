@@ -4,7 +4,6 @@ import { convertToE24Base5Dec } from '../services/near-nep21-util'
 import { produce } from 'immer';
 
 import {getCurrentBalance, saveInputsStateLocalStorage, setCurrencyIndex} from "./CurrencyTable"
-import findCurrencyLogoUrl from "../services/find-currency-logo-url";
 import { calcPriceFromOut, swapFromOut, incAllowance, getAllowance } from "../services/near-nep21-util";
 import { isNonzeroNumber, delay } from "../utils"
 
@@ -32,16 +31,8 @@ const Theme = styled("div")`
   }
 `;
 
-// Test contract call function 
-async function testContractCall(token1, token2) {
-  console.log("testContractCall called. [token1.amount, token2.amount]")
-  console.log([token1.amount, token2.amount])
-  return await window.nep21.get_balance({ owner_id: window.walletConnection.getAccountId() });
-}
-
-
 //MAIN COMPONENT
-export default function SwapInputCards(props) {
+export default function SwapInputCards() {
 
   // Global state
   const inputs = useContext(InputsContext);
@@ -52,94 +43,6 @@ export default function SwapInputCards(props) {
 
   // Notification state
   const notification = useContext(NotificationContext);
-
-  // Runs only in useEffect(). Looks for isApproving or isSwapping = true
-  // and then updates state and shows notifications based on result
-  function checkStatuses() {
-
-    if (inputs.state.swap.status == "isApproving") {
-
-      // If approval is successful
-      if (inputs.state.swap.previous < inputs.state.swap.in.allowance) {
-        // Notify user
-        notification.dispatch({
-          type: 'SHOW_NOTIFICATION', payload: {
-            heading: "Approval complete",
-            message: "Your NEP-21 token is now approved to swap."
-          }
-        });
-        // Reset needsApproval
-        dispatch({
-          type: 'UPDATE_SWAP_APPROVAL', payload: {
-            needsApproval: false
-          }
-        });
-        
-        // Update status
-        setStatus("readyToSwap")
-        //dispatch({type: 'UPDATE_SWAP_STATUS', payload: {status: "readyToSwap"}});
-
-      } 
-      else {
-        // Approval is not successful
-        notification.dispatch({
-          type: 'SHOW_NOTIFICATION', payload: {
-            heading: "Approval unsuccessful",
-            message: "Please try again."
-          }
-        });
-      }
-
-    } else if (inputs.state.swap.status == "isSwapping") {
-
-      // If swap is successful
-      if (inputs.state.swap.previous < inputs.state.swap.in.balance) {
-        // Reset amounts
-        clearInputs();
-        // Reset needsApproval
-        dispatch({
-          type: 'UPDATE_SWAP_APPROVAL', payload: {
-            needsApproval: (inputs.state.swap.out.type === "NEP-21")
-          }
-        });
-        // Notify user
-        notification.dispatch({
-          type: 'SHOW_NOTIFICATION', payload: {
-            heading: "Swap complete",
-            message: "Your swap has been submitted."
-          }
-        });
-
-        // Update status
-        setStatus("notReadyToSwap")
-        //dispatch({type: 'UPDATE_SWAP_STATUS', payload: {status: "notReadyToSwap" } });
-
-      } 
-      else {
-        // Swap is not successful
-        notification.dispatch({
-          type: 'SHOW_NOTIFICATION', payload: {
-            heading: "Swap unsuccessful",
-            message: "Your swap has failed."
-          }
-        });
-      }
-    }
-  }
-
-  // Initializes allowance of from token
-  async function initializeFromAllowance() {
-    await delay(500).then(async function () {
-      if (inputs.state.swap.in.type == "NEP-21") {
-        try {
-          let allowance = await getAllowance(inputs.state.swap.in);
-          dispatch({ type: 'UPDATE_IN_ALLOWANCE', payload: { allowance: allowance } });
-        } catch (e) {
-          console.error(e);
-        }
-      }
-    });
-  }
 
   function setStatus(newStatus, newError, previous) {
     dispatch({ type: 'UPDATE_SWAP_STATUS', payload: { 
@@ -173,57 +76,6 @@ export default function SwapInputCards(props) {
 
     setStatus(newStatus,newError );
   }
-
-  // Handles updating button view and input information
-  async function handleInTokenUpdate() {
-    // Update image, symbol, address, tokenIndex, and type of selected currency
-    await delay(1000).then(async function () { // delay to wait for balances update
-      // Update image, symbol, address, tokenIndex, and type of selected currency
-      let newToken = tokenListState.state.tokens[inputs.state.swap.in.tokenIndex];
-      dispatch({
-        type: 'UPDATE_IN_SELECTED_CURRENCY',
-        payload: {
-          logoUrl: findCurrencyLogoUrl(inputs.state.swap.in.tokenIndex, tokenListState.state.tokens),
-          symbol: newToken.symbol,
-          type: newToken.type,
-          tokenIndex: inputs.state.swap.in.tokenIndex,
-          address: newToken.address,
-          balance: newToken.balance,
-          decimals: newToken.decimals
-        }
-      });
-    })
-      .then(async function () {
-        if (inputs.state.swap.in.type == "NEP-21") {
-          try {
-            let allowance = await getAllowance(inputs.state.swap.in);
-            dispatch({ type: 'UPDATE_IN_ALLOWANCE', payload: { allowance: allowance } });
-          } catch (e) {
-            console.error(e);
-          }
-        }
-      });
-
-  }
-  async function handleOutTokenUpdate() {
-    // Update image, symbol, address, tokenIndex, and type of selected currency
-    await delay(1000).then(async function () { // delay to wait for balances update
-      let newToken = tokenListState.state.tokens[inputs.state.swap.out.tokenIndex];
-      dispatch({
-        type: 'UPDATE_OUT_SELECTED_CURRENCY',
-        payload: {
-          logoUrl: findCurrencyLogoUrl(inputs.state.swap.out.tokenIndex, tokenListState.state.tokens),
-          symbol: newToken.symbol,
-          type: newToken.type,
-          tokenIndex: inputs.state.swap.out.tokenIndex,
-          address: newToken.address,
-          balance: newToken.balance,
-          decimals: newToken.decimals
-        }
-      });
-    })
-  }
-
 
   function newUserBalanceReceived(newBalance){
     //check if we're recovering state after a SDE (State Destrcution Event) ;)
@@ -358,7 +210,7 @@ export default function SwapInputCards(props) {
   }
 
   function setError(error){
-    setStatus(inputs.state.swap.status,"Invalid amounts")
+    setStatus(inputs.state.swap.status, error)
   }
 
   async function handleSwap() {
@@ -404,7 +256,11 @@ export default function SwapInputCards(props) {
         try {
           let allowance = await getAllowance(token);
           let needsApproval = true;
-          try{ needsApproval = inputs.state.swap.in.allowance<inputs.state.swap.in.amount } catch (ex){};
+          try { 
+            needsApproval = inputs.state.swap.in.allowance<inputs.state.swap.in.amount
+          } catch (e) {
+            console.error(e);
+          }
           dispatch({ type: 'UPDATE_IN_ALLOWANCE', payload: { allowance: allowance, needsApproval:needsApproval } });
         } catch (e) {
           console.error(e);
@@ -414,62 +270,21 @@ export default function SwapInputCards(props) {
   }
 
   // Move "To" input and currency to "From" and vice versa
+  // Will be used to switch inputs (I Want <---> I'll Provide)
   function switchInputs() {
-    let oldFromAmount = inputs.state.swap.in.amount;
+    /*let oldFromAmount = inputs.state.swap.in.amount;
     let oldTo = inputs.state.swap.out;
     dispatch({ type: 'SWITCH_SWAP_INPUTS' });
     handleToAmountChange(oldFromAmount);
-    updateFromAllowance(oldTo);
+    updateFromAllowance(oldTo);*/
   }
 
   function readyToSwap() { 
     return inputs.state.swap.status == "readyToSwap" 
   }
-  function waiting() { 
-    return inputs.state.swap.status == "fetchingData" 
-      || inputs.state.swap.status == "isApproving" 
-      || inputs.state.swap.status == "isSwapping" 
-  }
-
-  function statusText() {
-    if (!window.walletConnection.isSignedIn()) return "Not Connected";
-    switch (inputs.state.swap.status) {
-      case "readyToSwap": { return "ready" }
-      case "notReadyToSwap": { return "Not ready" }
-      case "fetchingData": { return "Retrieving data..." }
-      case "isApproving": { return "Approving..." }
-      case "isSwapping": { return "Swapping..." }
-        deafult: return inputs.state.swap.status;
-    }
-  }
-
-  function needSpinner() {
-    return window.walletConnection.isSignedIn() && inputs.state.swap.status=="fetchingData";
-  }
 
   return (
     <>
-
-      {/* STATUS */}
-
-     {/* <Row className="px-2 status">
-        <Alert variant="warning"
-          className="status"
-          style={{ display: waiting() ? 'block' : 'none' }}
-        >
-          <Spinner
-            style={{ display: needSpinner() ? 'inline-block' : 'none' }}
-            as="span"
-            className="spinner"
-            animation="grow"
-            size="sm"
-            role="status"
-            aria-hidden="true"
-          />
-          {statusText()}
-        </Alert>
-      </Row> */}
-
       <p className="text-center my-1 text-secondary" style={{ 'letterSpacing': '3px' }}>
         <small>SWAP</small>
       </p>
@@ -533,7 +348,7 @@ export default function SwapInputCards(props) {
 
       <Theme className="py-2">
         <label className="ml-4 mb-1 mt-0">
-          <small className="text-secondary">I'll provide:</small>
+          <small className="text-secondary">I&apos;ll provide:</small>
         </label>
         <Row className="px-2">
           <Col>
@@ -597,7 +412,7 @@ export default function SwapInputCards(props) {
         {/* Display textual information before user swaps */}
         {!inputs.state.swap.error &&
           <small className="text-secondary">
-            You'll get <b className="text-black">{inputs.state.swap.out.amount}</b> {inputs.state.swap.out.symbol}{' '} 
+            You&apos;ll get <b className="text-black">{inputs.state.swap.out.amount}</b> {inputs.state.swap.out.symbol}{' '} 
             for <b className="text-black">{convertToE24Base5Dec(inputs.state.swap.in.amount)}</b> {inputs.state.swap.in.symbol}.
           </small>
         }

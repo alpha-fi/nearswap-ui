@@ -90,7 +90,7 @@ export default function PoolInfoCard(props) {
                 </Table>
               </Col>
               <Col className="my-auto text-center" xs={12} sm={4}>
-                <Button variant="warning" size="sm" className="mr-1 mb-1" onClick={(e) => handleAddLiquidityModal(props.name, props.symbol, props.decimals)}>Add liquidity</Button>
+                <Button variant="warning" size="sm" className="mr-1 mb-1" onClick={() => handleAddLiquidityModal(props.name, props.symbol, props.decimals)}>Add liquidity</Button>
                 <Button variant="warning" size="sm" className="mr-1 mb-1" disabled>Swap</Button>
               </Col>
             </Row>

@@ -4,7 +4,7 @@ import { assert } from "chai";
 describe("Normalize Accounts ", () => {
     
     it("should trim zeros ", () => {
-        var res = trimZeros("000.12");
+        let res = trimZeros("000.12");
         assert.equal(res, ".12", 'mismatch');
 
         res = trimZeros("0.32");
@@ -33,10 +33,10 @@ describe("Normalize Accounts ", () => {
     });
 
     it("normalize accounts ", () => {
-        var res = normalizeAmount(".12");
+        let res = normalizeAmount(".12");
         assert.equal(res, "120000000000000000000000", 'mismatch');
 
-        var res = normalizeAmount("42");
+        res = normalizeAmount("42");
         assert.equal(res, "42000000000000000000000000", 'mismatch');
     });
 });
@@ -44,31 +44,31 @@ describe("Normalize Accounts ", () => {
 describe("Convert to real number", () => {
 
     it("Division ",  () => {
-        var res = convertToE24Base("1000000000000000000000000");
+        let res = convertToE24Base("1000000000000000000000000");
         assert.equal(res, "1.000000000000000000000000", 'mismatch');
         
-        var res = convertToE24Base("10000000000000000000000");
+        res = convertToE24Base("10000000000000000000000");
         assert.equal(res, "0.010000000000000000000000", 'mismatch');
 
-        var res = convertToE24Base("1234567891234567891234567");
+        res = convertToE24Base("1234567891234567891234567");
         assert.equal(res, "1.234567891234567891234567", 'mismatch');
 
-        var res = convertToE24Base("1234567891234567894567");
+        res = convertToE24Base("1234567891234567894567");
         assert.equal(res, "0.001234567891234567894567", 'mismatch');
 
-        var res = convertToE24Base("1");
+        res = convertToE24Base("1");
         assert.equal(res, "0.000000000000000000000001", 'mismatch');
 
-        var res = convertToE24Base("0");
+        res = convertToE24Base("0");
         assert.equal(res, "0."+"0".repeat(24), 'mismatch');
 
-        var res = convertToE24Base("00");
+        res = convertToE24Base("00");
         assert.equal(res, "0."+"0".repeat(24), 'mismatch');
 
-        var res = convertToE24Base("12340000000000000000000000000");
+        res = convertToE24Base("12340000000000000000000000000");
         assert.equal(res, "12340."+"0".repeat(24), 'mismatch');
 
-        var res = convertToE24Base("12340000000000000000000000001");
+        res = convertToE24Base("12340000000000000000000000001");
         assert.equal(res, "12340.000000000000000000000001", 'mismatch');
     });
 });

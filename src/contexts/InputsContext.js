@@ -73,9 +73,10 @@ const { Provider } = InputsContext;
 
 
 function reduce(state, action) {
-
+  let newState;
+  let oldOut;
+  let oldIn;
   switch (action.type) {
-
     case 'SET_TOKEN_BALANCE':
       return produce(state, draft => {
         if (action.payload.index == draft.swap.in.tokenIndex) {
@@ -100,7 +101,7 @@ function reduce(state, action) {
       });
 
     case 'CLEAR_PREVIOUS':
-      let newState = produce(state, draft => {
+      newState = produce(state, draft => {
         draft.swap.previous = "";
       });
       saveInputsStateLocalStorage(newState);
@@ -262,8 +263,8 @@ function reduce(state, action) {
       });
 
     case 'SWITCH_SWAP_INPUTS':
-      let oldOut = state.swap.out;
-      let oldIn = state.swap.in;
+      oldOut = state.swap.out;
+      oldIn = state.swap.in;
       return produce(state, draft => {
         draft.swap.in = {
           ...oldOut,
@@ -288,7 +289,7 @@ function reduce(state, action) {
 
     default:
       throw new Error();
-  };
+  }
 
 }
 

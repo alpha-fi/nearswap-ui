@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from "react";
+import React, { useReducer } from "react";
 
 const NotificationContext = React.createContext();
 const { Provider } = NotificationContext;
@@ -19,9 +19,10 @@ let initialState = {
 const NotificationProvider = ({ children }) => {
   
   const [state, dispatch] = useReducer((state, action) => {
+    let newNotif;
     switch(action.type) {
       case 'SHOW_NOTIFICATION':
-        let newNotif = {
+        newNotif = {
           heading: action.payload.heading,
           message: action.payload.message,
           show: true,
@@ -37,7 +38,7 @@ const NotificationProvider = ({ children }) => {
         };
       default:
         throw new Error();
-    };
+    }
   }, initialState);
 
   return (

@@ -8,7 +8,9 @@
     "deploy:pages": "gh-pages -d dist/",
     "prestart": "echo OK",
     "start": "echo The app is starting! It will automatically open in your browser when ready && echo env-cmd -f ./neardev/dev-account.env && parcel serve src/index.html --open",
-    "test": "jest test --runInBand"
+    "test": "jest test --runInBand",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix ."
   },
   "devDependencies": {
     "@babel/preset-env": "^7.12.11",
@@ -28,6 +30,8 @@
     "@emotion/styled": "^10.0.27",
     "@walletconnect/web3-provider": "^1.3.1",
     "emotion-theming": "^10.0.27",
+    "eslint": "^7.21.0",
+    "eslint-plugin-react": "^7.22.0",
     "immer": "^8.0.0",
     "near-api-js": "^0.36.2",
     "react": ">=16.3.0",
