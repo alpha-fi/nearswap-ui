@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 
-import { calcNearAddLiquidity, convertToE24Base5Dec, incAllowance, addLiquidity } from "../services/near-nep21-util";
+import { calcNearAddLiquidity, convertToE24Base5Dec, incAllowance, addLiquidity, convertToDecimals } from "../services/near-nep21-util";
 
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
@@ -85,7 +85,7 @@ export default function CurrencySelectionModal() {
           </small>
         </label>
         </InputBox>
-        <p className="mt-2 mb-1 text-center lead">+ {convertToE24Base5Dec(inputs.state.addLiquidityModal.requiredNearAmount)} NEAR</p>
+        <p className="mt-2 mb-1 text-center lead">+ {convertToDecimals(inputs.state.addLiquidityModal.requiredNearAmount, 24)} NEAR</p>
         <Row className="text-center pt-2">
           <Col>
             <small className="text-secondary">Allowance</small>
@@ -110,10 +110,10 @@ export default function CurrencySelectionModal() {
             }
           </Col>
           <Col className="align-self-center">
-            {convertToE24Base5Dec(inputs.state.addLiquidityModal.tokenPerNear)}
+            {convertToDecimals(inputs.state.addLiquidityModal.tokenPerNear, 24)}
           </Col>
           <Col className="align-self-center">
-            {convertToE24Base5Dec(inputs.state.addLiquidityModal.nearPerToken)}
+            {convertToDecimals(inputs.state.addLiquidityModal.nearPerToken, 24)}
           </Col>
         </Row>
       </Modal.Body>

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 
-import { convertToE24Base5Dec, getAllowance } from "../services/near-nep21-util";
+import { getAllowance, convertToDecimals } from "../services/near-nep21-util";
 
 import { TokenListContext } from "../contexts/TokenListContext";
 import { InputsContext } from "../contexts/InputsContext";
@@ -70,21 +70,21 @@ export default function PoolInfoCard(props) {
                   <thead>
                     <tr>
                       <th>NEAR Amount</th>
-                      <th className="amount">{convertToE24Base5Dec(props.ynear)}</th>
+                      <th className="amount">{convertToDecimals(props.ynear, 24)}</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
                       <td>Reserve Amount</td>
-                      <td className="amount">{convertToE24Base5Dec(props.reserve)}</td>
+                      <td className="amount">{convertToDecimals(props.reserve, 24)}</td>
                     </tr>
                     <tr>
                       <td><ColoredThemeText>My shares</ColoredThemeText></td>
-                      <td className="amount"><ColoredThemeText>{convertToE24Base5Dec(props.my_shares)}</ColoredThemeText></td>
+                      <td className="amount"><ColoredThemeText>{convertToDecimals(props.my_shares, 24)}</ColoredThemeText></td>
                     </tr>
                     <tr>
                       <td>Total shares</td>
-                      <td className="amount">{convertToE24Base5Dec(props.total_shares)}</td>
+                      <td className="amount">{convertToDecimals(props.total_shares, 24)}</td>
                     </tr>
                   </tbody>
                 </Table>

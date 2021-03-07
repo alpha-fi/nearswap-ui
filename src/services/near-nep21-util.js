@@ -6,7 +6,7 @@ const maxGas = '300000000000000';
 const attach60NearCents = '6' + e22;
 const nep21AllowanceFee = '7' + e22;
 const NDENOM = 1e24;
-const nativeToken = "NATIVE TOKEN";
+const nativeToken = "Native token";
 const nep21 = "NEP-21";
 
 export async function getBalanceNEP(contractName) {
@@ -119,6 +119,23 @@ export async function gasCheck() {
     return true;
   }
   return false;
+}
+
+// Use decimal attribute format and return token amount.
+// Till 5 decimals
+export function convertToDecimals(str, decimals) {
+  let len = Number(decimals);
+  if(len == 0) {
+    return str;
+  }
+
+  let result = (str + "").padStart(len + 1, "0");
+  result = result.slice(0, -len) + "." + result.slice(-len);
+
+  if(decimals > 5) {
+    return result.slice(0, -(len - 5));
+  }
+  return result;
 }
 
 export function convertToE24Base5Dec(str) {
@@ -319,7 +336,6 @@ export async function swapFromIn(tokenProvide, tokenWant) {
 }
 
 export async function calcPriceFromOut(tokenProvide, tokenWant) {
-  
   if (tokenWant.amount < 1 || checkTokenType(tokenProvide, tokenWant)) {
     return 0;
   }

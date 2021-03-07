@@ -1,6 +1,6 @@
 import React, { useEffect, useContext } from "react";
 
-import { convertToE24Base5Dec } from '../services/near-nep21-util'
+import { convertToDecimals, convertToE24Base5Dec } from '../services/near-nep21-util'
 import { produce } from 'immer';
 
 import {getCurrentBalance, saveInputsStateLocalStorage, setCurrencyIndex} from "./CurrencyTable"
@@ -87,7 +87,7 @@ export default function SwapInputCards() {
           type: 'SHOW_NOTIFICATION',
           payload: {
             heading: "Swap was successful",
-            message: "your balance went from " + convertToE24Base5Dec(inputs.state.swap.previous) + " to " + convertToE24Base5Dec(newBalance),
+            message: "your balance went from " + convertToDecimals(inputs.state.swap.previous, inputs.state.swap.in.decimals) + " to " + convertToDecimals(newBalance, inputs.state.swap.in.decimals),
             show: true,
           }
         });
@@ -313,7 +313,7 @@ export default function SwapInputCards() {
               {(inputs.state.swap.out.balance && inputs.state.swap.out.balance !== 0)
                 && <>
                   <small className="mr-3 text-secondary">
-                  Your Balance:<br />{convertToE24Base5Dec(inputs.state.swap.out.balance)}
+                  Your Balance:<br />{convertToDecimals(inputs.state.swap.out.balance, inputs.state.swap.out.decimals)}
                   </small>
                   <br />
                 </>
@@ -357,7 +357,7 @@ export default function SwapInputCards() {
               <input
                 type="text"
                 readOnly
-                value={convertToE24Base5Dec(inputs.state.swap.in.amount)}
+                value={convertToDecimals(inputs.state.swap.in.amount, inputs.state.swap.in.decimals)}
                 className="form-control border-0 bg-transparent"
                 placeholder="0.0"
               />
@@ -370,7 +370,7 @@ export default function SwapInputCards() {
               {(inputs.state.swap.in.balance && inputs.state.swap.in.balance !== 0)
                 && <>
                   <small className="mr-3 text-secondary">
-                    Your Balance:<br />{convertToE24Base5Dec(inputs.state.swap.in.balance)}
+                    Your Balance:<br />{convertToDecimals(inputs.state.swap.in.balance, inputs.state.swap.in.decimals)}
                   </small>
                   <br />
                 </>
@@ -401,7 +401,7 @@ export default function SwapInputCards() {
 
       {(inputs.state.swap.in.allowance && inputs.state.swap.in.type==="NEP-21") &&
         <div className="text-right pr-3 text-secondary">
-          <small>Current {inputs.state.swap.in.symbol} allowance: {convertToE24Base5Dec(inputs.state.swap.in.allowance)}</small>
+          <small>Current {inputs.state.swap.in.symbol} allowance: {convertToDecimals(inputs.state.swap.in.allowance, inputs.state.swap.in.decimals)}</small>
         </div>
       }
 
@@ -413,7 +413,7 @@ export default function SwapInputCards() {
         {!inputs.state.swap.error &&
           <small className="text-secondary">
             You&apos;ll get <b className="text-black">{inputs.state.swap.out.amount}</b> {inputs.state.swap.out.symbol}{' '} 
-            for <b className="text-black">{convertToE24Base5Dec(inputs.state.swap.in.amount)}</b> {inputs.state.swap.in.symbol}.
+            for <b className="text-black">{convertToDecimals(inputs.state.swap.in.amount, inputs.state.swap.in.decimals)}</b> {inputs.state.swap.in.symbol}.
           </small>
         }
         
@@ -440,7 +440,7 @@ export default function SwapInputCards() {
               ? <>
                 Approve {inputs.state.swap.in.symbol} allowance {
                   (inputs.state.swap.in.amount && inputs.state.swap.in.amount !== 0)
-                    ? <>of {convertToE24Base5Dec(inputs.state.swap.in.amount)}</>
+                    ? <>of {convertToDecimals(inputs.state.swap.in.amount, inputs.state.swap.in.decimals)}</>
                     : ""
                 }
               </>

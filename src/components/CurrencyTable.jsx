@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 
 import findCurrencyLogoUrl from "../services/find-currency-logo-url";
-import { getAllowance, convertToE24Base5Dec, getBalanceNEP } from '../services/near-nep21-util'
+import { getAllowance, getBalanceNEP, convertToDecimals} from '../services/near-nep21-util'
 import { calcPriceFromIn } from "../services/near-nep21-util";
 import { delay, isNonzeroNumber } from "../utils"
 
@@ -251,7 +251,7 @@ export const CurrencyTable = () => {
           </td>
           <td className="text-right">
             {token.balance
-              ? <code className="text-secondary">{token.type==="ERC-20"?token.balance:convertToE24Base5Dec(token.balance)}</code>
+              ? <code className="text-secondary">{token.type==="ERC-20"?token.balance:convertToDecimals(token.balance, token.decimals)}</code>
               : <code className="text-secondary">-</code>
             }
           </td>
