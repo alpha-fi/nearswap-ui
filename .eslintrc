@@ -24,8 +24,8 @@
     }
   },
   "extends": [
-    "plugin:react/recommended", 
-    "eslint:recommended"
+    "eslint:recommended",
+    "plugin:react/recommended"
   ],
   "rules": {
     "no-console": "off",

@@ -413,7 +413,7 @@ export default function SwapInputCards() {
         {!inputs.state.swap.error &&
           <small className="text-secondary">
             You&apos;ll get <b className="text-black">{inputs.state.swap.out.amount}</b> {inputs.state.swap.out.symbol}{' '} 
-            for <b className="text-black">{convertToDecimals(inputs.state.swap.in.amount, inputs.state.swap.in.decimals)}</b> {inputs.state.swap.in.symbol}.
+            for <b className="text-black">{convertToDecimals(inputs.state.swap.in.amount)}</b> {inputs.state.swap.in.symbol}.
           </small>
         }
         
