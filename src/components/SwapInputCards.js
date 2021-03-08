@@ -1,6 +1,6 @@
 import React, { useEffect, useContext } from "react";
 
-import { convertToDecimals, convertToE24Base5Dec } from '../services/near-nep21-util'
+import { convertToDecimals } from '../services/near-nep21-util'
 import { produce } from 'immer';
 
 import {getCurrentBalance, saveInputsStateLocalStorage, setCurrencyIndex} from "./CurrencyTable"

@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 
-import { calcNearAddLiquidity, convertToE24Base5Dec, incAllowance, addLiquidity, convertToDecimals } from "../services/near-nep21-util";
+import { calcNearAddLiquidity, incAllowance, addLiquidity, convertToDecimals } from "../services/near-nep21-util";
 
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';

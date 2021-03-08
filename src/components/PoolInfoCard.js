@@ -50,7 +50,7 @@ export default function PoolInfoCard(props) {
       selectedTokenDecimal: tokenDecimal,
       nearPerToken: props.near_per_token,
       tokenPerNear: props.token_per_near,
-      decimals: tokenDecimals
+      decimals: tokenDecimal
     }})
   }
 
