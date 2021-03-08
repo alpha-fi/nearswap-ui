@@ -110,7 +110,7 @@ export default function CurrencySelectionModal() {
             }
           </Col>
           <Col className="align-self-center">
-            {convertToDecimals(inputs.state.addLiquidityModal.tokenPerNear, 24)}
+            {convertToDecimals(inputs.state.addLiquidityModal.tokenPerNear, inputs.state.addLiquidityModal.selectedTokenDecimal)}
           </Col>
           <Col className="align-self-center">
             {convertToDecimals(inputs.state.addLiquidityModal.nearPerToken, 24)}

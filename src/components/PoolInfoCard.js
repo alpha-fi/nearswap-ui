@@ -35,7 +35,7 @@ export default function PoolInfoCard(props) {
   // Inputs state
   const inputs = useContext(InputsContext);
 
-  async function handleAddLiquidityModal(tokenName, tokenSymbol, tokenDecimals) {
+  async function handleAddLiquidityModal(tokenName, tokenSymbol, tokenDecimal) {
     if(window.accountId == "") {
       alert('Please connect to NEAR wallet first!!');
       return;
@@ -47,6 +47,7 @@ export default function PoolInfoCard(props) {
       selectedTokenName: tokenName,
       selectedTokenSymbol: tokenSymbol,
       selectedTokenAllowance: allowance,
+      selectedTokenDecimal: tokenDecimal,
       nearPerToken: props.near_per_token,
       tokenPerNear: props.token_per_near,
       decimals: tokenDecimals

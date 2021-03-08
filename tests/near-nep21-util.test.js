@@ -32,12 +32,24 @@ describe("Normalize Accounts ", () => {
         assert.equal(res, "0", 'mismatch');
     });
 
-    it("normalize accounts ", () => {
-        let res = normalizeAmount(".12");
+    it("normalize amounts ", () => {
+        let res = normalizeAmount(".12", 24);
         assert.equal(res, "120000000000000000000000", 'mismatch');
 
-        res = normalizeAmount("42");
+        res = normalizeAmount("42", 24);
         assert.equal(res, "42000000000000000000000000", 'mismatch');
+
+        res = normalizeAmount("42", 2);
+        assert.equal(res, "4200", 'mismatch');
+
+        res = normalizeAmount("42", 0);
+        assert.equal(res, "42", 'mismatch');
+
+        res = normalizeAmount("4.122", 4);
+        assert.equal(res, "41220", 'mismatch');
+
+        res = normalizeAmount("4.22342", 5);
+        assert.equal(res, "422342", 'mismatch');
     });
 });
 
@@ -83,10 +95,7 @@ describe("Convert to real number", () => {
         assert.equal(res, "0.00123", 'mismatch');
 
         res = convertToDecimals("0", 24);
-        assert.equal(res, "0."+"0".repeat(5), 'mismatch');
-
-        res = convertToDecimals("00", 24);
-        assert.equal(res, "0."+"0".repeat(5), 'mismatch');
+        assert.equal(res, "0.0", 'mismatch');
 
         res = convertToDecimals("1234567654321", 5);
         assert.equal(res, "12345676.54321", 'mismatch');
@@ -96,5 +105,23 @@ describe("Convert to real number", () => {
 
         res = convertToDecimals("1234567654321", 0);
         assert.equal(res, "1234567654321", 'mismatch');
+
+        res = convertToDecimals("1", 6);
+        assert.equal(res, "0.000001", 'mismatch');
+
+        res = convertToDecimals("11", 6);
+        assert.equal(res, "0.00001", 'mismatch');
+
+        res = convertToDecimals("1234567", 6);
+        assert.equal(res, "1.23456", 'mismatch');
+
+        res = convertToDecimals("1000000", 6);
+        assert.equal(res, "1.00000", 'mismatch');
+
+        res = convertToDecimals("1200000", 6);
+        assert.equal(res, "1.20000", 'mismatch');
+
+        res = convertToDecimals("12300000", 6);
+        assert.equal(res, "12.30000", 'mismatch');
     });
 });

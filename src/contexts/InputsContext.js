@@ -46,6 +46,7 @@ let initialState = {
     selectedTokenName: "",
     selectedTokenSymbol: "",
     selectedTokenAllowance: "",
+    selectedTokenDecimal: "",
     requiredNearAmount: 0,
     tokenPerNear: "",
     nearPerToken: "",
