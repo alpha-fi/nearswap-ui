@@ -22,7 +22,7 @@ const TokenListProvider = ({ children }) => {
 
       default:
         throw new Error();
-    };
+    }
   }
 
   const [state, dispatch] = useReducer(reducer, initialState);

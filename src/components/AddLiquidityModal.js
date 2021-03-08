@@ -19,7 +19,7 @@ const InputBox = styled("div")`
   }
 `;
 
-export default function CurrencySelectionModal(props) {
+export default function CurrencySelectionModal() {
 
   // Inputs state
   const inputs = useContext(InputsContext);

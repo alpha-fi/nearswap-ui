@@ -1,5 +1,5 @@
 export default function findCurrencyLogoUrl(newTokenIndex, tokens) {
-  let hasImage = tokens[newTokenIndex].hasOwnProperty("logoURL");
+  let hasImage = tokens[newTokenIndex].logoURL;
 
   // Only display image on button if it exists
   if (hasImage) {

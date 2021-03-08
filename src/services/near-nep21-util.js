@@ -32,7 +32,7 @@ export async function calcSlippage(tokenProvide, tokenWant) {
   const unitPrice = await calcPriceFromOut(tokenProvide, token);
   const noSlippagePrice = unitPrice * tokenWant.amount;
   const slippage = (price - noSlippagePrice) / noSlippagePrice;
-  console.log("Slippage: ", slippage);
+  console.debug("Slippage: ", slippage);
   return slippage;
 
 }
@@ -58,7 +58,7 @@ export async function calcPerNear(tokenAddress) {
 export async function incAllowance(swapLeg) {
 
   if (swapLeg.amount==""||swapLeg.amount=="0".repeat(24)) {
-    console.log("ERR:swapLeg.amount==''!!")
+    console.debug("ERR:swapLeg.amount==''!!")
     return;
   }
   window.nep21 = await new Contract(
@@ -81,11 +81,11 @@ export async function incAllowance(swapLeg) {
       maxGas,
       nep21AllowanceFee
     );
-    console.log("DONE");
+    console.debug("DONE");
     return true;
   } 
     catch (error) {
-    console.log(error);
+    console.debug(error);
     return false;
   }
 
@@ -107,7 +107,7 @@ export async function getAllowance(token) {
     owner_id: accountId,
     escrow_account_id: window.config.contractName
   });
-  console.log('Allowance: ', allowance);
+  console.debug('Allowance: ', allowance);
   return allowance;
 }
 
@@ -221,7 +221,7 @@ function checkTokenType(tokenProvide, tokenWant) {
   if((tokenProvide === nativeToken && tokenProvide.type === tokenWant.type) || 
     (tokenProvide.address === tokenWant.address)) {
 
-    console.log("Cannot Swap Same type of tokens");
+    console.debug("Cannot Swap Same type of tokens");
     return 1;
   }
   return 0;
@@ -240,7 +240,7 @@ export async function calcPriceFromIn(tokenProvide, tokenWant) {
       token: tokenWant.address,
       ynear_in: toYoctosString(tokenProvide.amount)
     });
-    console.log(price);
+    console.debug(price);
     return price;
   }
   else {
@@ -262,7 +262,7 @@ export async function calcPriceFromIn(tokenProvide, tokenWant) {
       return price;
     }
     else {
-      console.log("Error: Token type error");
+      console.debug("Error: Token type error");
     }
   }
 }
@@ -323,14 +323,14 @@ export async function calcPriceFromOut(tokenProvide, tokenWant) {
   if (tokenWant.amount < 1 || checkTokenType(tokenProvide, tokenWant)) {
     return 0;
   }
-  console.log(tokenProvide.type, tokenWant.type);
+  console.debug(tokenProvide.type, tokenWant.type);
   if (tokenProvide.type === nativeToken) {
     // Native to NEP-21
     const price = await window.contract.price_near_to_token_out({
       token: tokenWant.address,
       tokens_out: toYoctosString(tokenWant.amount)
     });
-    console.log("expect_in ", price);
+    console.debug("expect_in ", price);
     return price;
   }
   else {
@@ -341,7 +341,7 @@ export async function calcPriceFromOut(tokenProvide, tokenWant) {
         to: tokenWant.address,
         tokens_out: toYoctosString(tokenWant.amount)
       });
-      console.log("expect_in ", price);
+      console.debug("expect_in ", price);
       return price;
     }
     else if (tokenWant.type === nativeToken) {
@@ -353,7 +353,7 @@ export async function calcPriceFromOut(tokenProvide, tokenWant) {
       return price;
     }
     else {
-      console.log("Error: Token type error");
+      console.debug("Error: Token type error");
     }
   }
 }
@@ -445,7 +445,7 @@ export async function createPool(tokenDetails, maxTokenAmount, minSharesAmount) 
   }
   await window.contract.create_pool({ token: tokenDetails.address });
 
-  await addLiquiduty(tokenDetails.address, maxTokenAmount, minSharesAmount);
+  await addLiquidity(tokenDetails.address, maxTokenAmount, minSharesAmount);
 
   return false;
 }
@@ -453,7 +453,7 @@ export async function createPool(tokenDetails, maxTokenAmount, minSharesAmount) 
 export async function browsePools() {
   try {
     const pools = await window.contract.list_pools();
-    console.log(pools);
+    console.debug(pools);
     return pools;
   } catch (error) {
     console.error('cannot fetch pool list');
@@ -463,7 +463,7 @@ export async function browsePools() {
 export async function poolInfo(pool) {
   try {
     const poolInfo = await window.contract.pool_info({ token: pool });
-    console.log(poolInfo);
+    console.debug(poolInfo);
     return poolInfo;
   } catch (error) {
     console.error('cannot fetch pool info');
