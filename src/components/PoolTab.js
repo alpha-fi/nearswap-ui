@@ -1,13 +1,18 @@
 import React, { useEffect, useState, useContext } from "react";
+import { Button } from 'react-bootstrap'
 
 import { browsePools, poolInfo, sharesBalance, calcPerToken, calcPerNear } from "../services/near-nep21-util";
 
 import PoolInfoCard from "./PoolInfoCard"
 import AddLiquidityModal from "./AddLiquidityModal"
+import CreatePoolModal from "./CreatePoolModal";
 
 import { TokenListContext } from "../contexts/TokenListContext";
+import { InputsContext } from "../contexts/InputsContext";
 
 export default function PoolTab() {
+
+  const inputs = useContext(InputsContext);
 
   const [pools, setPools] = useState([]);
 
@@ -50,6 +55,15 @@ export default function PoolTab() {
     }
   }
 
+  async function handlePoolCreation(tokenAddress, initialToken, initialNear) {
+    if(window.accountId == "") {
+      alert('Please connect to NEAR wallet first!!');
+      return;
+    }
+    // Update data
+    inputs.dispatch({ type: 'TOGGLE_CREATE_POOL_MODAL' });
+  }
+
 
   //----------------------------
   //----------------------------
@@ -61,6 +75,7 @@ export default function PoolTab() {
   return (
     <>
       <p className="text-center my-1 text-secondary" style={{ 'letterSpacing': '3px' }}><small>POOLS</small></p>
+      <Button variant="warning" size="sm" className="mr-1 mb-1" onClick={() => handlePoolCreation("", "", "")}>Create Pool</Button>
       {pools.map((pool, index) => (
         <PoolInfoCard key={index} 
                     ynear={pool.ynear} 
@@ -75,6 +90,7 @@ export default function PoolTab() {
                     />
       ))}
       <AddLiquidityModal/>
+      <CreatePoolModal/>
     </>
   );
 }

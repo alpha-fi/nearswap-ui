@@ -103,6 +103,7 @@ export async function getAllowance(token) {
       changeMethods: []
     }
   )
+  console.log("OK!@@@@@@");
   const allowance = await window.nep21.get_allowance({
     owner_id: accountId,
     escrow_account_id: window.config.contractName

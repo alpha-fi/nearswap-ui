@@ -49,6 +49,14 @@ let initialState = {
     requiredNearAmount: 0,
     tokenPerNear: "",
     nearPerToken: "",
+  },
+  createPoolModal: {
+    isVisible: false,
+    initialToken: 0,
+    tokenAllowance: "",
+    initialNear: 0,
+    tokenPerNear: 0,
+    nearPerToken: 0
   }
 };
 
@@ -234,6 +242,21 @@ function reduce(state, action) {
     case 'UPDATE_ADD_LIQUIDITY_REQUIRED_NEAR_AMOUNT':
       return produce(state, draft => {
         draft.addLiquidityModal.requiredNearAmount = action.payload.requiredNearAmount;
+      });
+
+    case 'TOGGLE_CREATE_POOL_MODAL':
+      return produce(state, draft => {
+        draft.createPoolModal.isVisible = !state.createPoolModal.isVisible;
+        draft.createPoolModal.initialToken = 0;
+        draft.createPoolModal.initialNear = 0;
+        draft.createPoolModal.tokenAllowance = 0;
+        draft.createPoolModal.nearPerToken = 0;
+        draft.createPoolModal.tokenPerNear = 0;
+      });
+
+    case 'UPDATE_CREATE_POOL_TOKEN_ALLOWANCE':
+      return produce(state, draft => {
+        draft.createPoolModal.tokenAllowance = action.payload.tokenAllowance;
       });
 
     case 'UPDATE_SWAP_APPROVAL':
