@@ -121,6 +121,14 @@ export async function gasCheck() {
   return false;
 }
 
+export function convertTo5Dec(str, decimals) {
+  let len = Number(decimals);
+  let result = convertToDecimals(str, decimals);
+  if(decimals > 5) {
+    return result.slice(0, -(len - 5));
+  }
+  return result;
+}
 // Use decimal attribute format and return token amount.
 // Till 5 decimals
 export function convertToDecimals(str, decimals) {
@@ -133,9 +141,6 @@ export function convertToDecimals(str, decimals) {
   let result = String(str).padStart(len + 1, "0");
   result = result.slice(0, -len) + "." + result.slice(-len);
 
-  if(decimals > 5 && str.length > decimals - 5) {
-    return result.slice(0, -(len - 5));
-  }
   return result;
 }
 
