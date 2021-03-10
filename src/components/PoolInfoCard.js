@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
+import ReactTooltip from "react-tooltip";
 
-import { getAllowance, convertToDecimals } from "../services/near-nep21-util";
+import { getAllowance, convertToDecimals, convertTo5Dec } from "../services/near-nep21-util";
 
 import { TokenListContext } from "../contexts/TokenListContext";
 import { InputsContext } from "../contexts/InputsContext";
@@ -71,21 +72,45 @@ export default function PoolInfoCard(props) {
                   <thead>
                     <tr>
                       <th>NEAR Amount</th>
-                      <th className="amount">{convertToDecimals(props.ynear, 24)}</th>
+                      <th className="amount">
+                      <div data-tip={convertToDecimals(props.ynear, 24)}
+                        data-for='toolTip1'
+                        data-place='top'>{convertTo5Dec(props.ynear, 24)}
+                        </div>
+                        <ReactTooltip id="toolTip1" />
+                        </th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
                       <td>Reserve Amount</td>
-                      <td className="amount">{convertToDecimals(props.reserve, 24)}</td>
+                      <td className="amount">
+                      <div data-tip={convertToDecimals(props.reserve, 24)}
+                        data-for='toolTip2'
+                        data-place='top'>{convertTo5Dec(props.reserve, 24)}
+                      </div>
+                        <ReactTooltip id="toolTip2" />
+                      </td>
                     </tr>
                     <tr>
                       <td><ColoredThemeText>My shares</ColoredThemeText></td>
-                      <td className="amount"><ColoredThemeText>{convertToDecimals(props.my_shares, 24)}</ColoredThemeText></td>
+                      <td className="amount"><ColoredThemeText>
+                        <div data-tip={convertToDecimals(props.my_shares, 24)}
+                          data-for='toolTip3'
+                          data-place='top'>{convertTo5Dec(props.my_shares, 24)}
+                        </div>
+                        <ReactTooltip id="toolTip3" />
+                      </ColoredThemeText></td>
                     </tr>
                     <tr>
                       <td>Total shares</td>
-                      <td className="amount">{convertToDecimals(props.total_shares, 24)}</td>
+                      <td className="amount">
+                        <div data-tip={convertToDecimals(props.total_shares, 24)}
+                          data-for='toolTip4'
+                          data-place='top'>{convertTo5Dec(props.total_shares, 24)}
+                        </div>
+                        <ReactTooltip id="toolTip4" />
+                      </td>
                     </tr>
                   </tbody>
                 </Table>

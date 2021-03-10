@@ -89,10 +89,10 @@ describe("Convert to real number", () => {
         assert.equal(res, "10.0", "Mismatch");
         
         res = convertToDecimals("1234567891234567891234567", 24);
-        assert.equal(res, "1.23456", 'mismatch');
+        assert.equal(res, "1.234567891234567891234567", 'mismatch');
 
         res = convertToDecimals("1234567891234567894567", 24);
-        assert.equal(res, "0.00123", 'mismatch');
+        assert.equal(res, "0.001234567891234567894567", 'mismatch');
 
         res = convertToDecimals("0", 24);
         assert.equal(res, "0.0", 'mismatch');
@@ -101,7 +101,7 @@ describe("Convert to real number", () => {
         assert.equal(res, "12345676.54321", 'mismatch');
 
         res = convertToDecimals("1234567654321", 6);
-        assert.equal(res, "1234567.65432", 'mismatch');
+        assert.equal(res, "1234567.654321", 'mismatch');
 
         res = convertToDecimals("1234567654321", 0);
         assert.equal(res, "1234567654321", 'mismatch');
@@ -110,18 +110,18 @@ describe("Convert to real number", () => {
         assert.equal(res, "0.000001", 'mismatch');
 
         res = convertToDecimals("11", 6);
-        assert.equal(res, "0.00001", 'mismatch');
+        assert.equal(res, "0.000011", 'mismatch');
 
         res = convertToDecimals("1234567", 6);
-        assert.equal(res, "1.23456", 'mismatch');
+        assert.equal(res, "1.234567", 'mismatch');
 
         res = convertToDecimals("1000000", 6);
-        assert.equal(res, "1.00000", 'mismatch');
+        assert.equal(res, "1.000000", 'mismatch');
 
         res = convertToDecimals("1200000", 6);
-        assert.equal(res, "1.20000", 'mismatch');
+        assert.equal(res, "1.200000", 'mismatch');
 
         res = convertToDecimals("12300000", 6);
-        assert.equal(res, "12.30000", 'mismatch');
+        assert.equal(res, "12.300000", 'mismatch');
     });
 });
