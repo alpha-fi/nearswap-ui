@@ -193,11 +193,14 @@ export function trimZeros(str) {
   return res;
 }
 
-/** convert an amount in tokens into YOCTOS
+/**
+ * convert an amount in tokens into YOCTOS
  * normalizeAmount 135  => "135"+"0".repeat(24)
  * normalizeAmount 0.14 => "14"+"0".repeat(24-2)
+ * @param value Value to be normalized
+ * @param decimal decimal for value
  */
-export function normalizeAmount(value, val) {
+export function normalizeAmount(value, decimal) {
   let ok = false;
   //let val = 24;
   let res = "";
@@ -210,34 +213,16 @@ export function normalizeAmount(value, val) {
     }
     else if (x >= '0' && x <= '9') {
       if (ok)
-        val--;
+      decimal--;
       res += x;
     } else {
       console.error("Error: Wrong Input");
       return -1;
     }
   }
-  res = res + "" + '0'.repeat(val);
+  res = res + "" + '0'.repeat(decimal);
   return res;
 }
-
-//Convert token units to yoctos 
-// 1.25 => 1.25*1e24.to_String()
-// 42 => 42*1e24.toString() 
-// 0 => "0".repeat(24)
-// The returned string will have at least 24 zeros
-//alias to normalizeAmount
-export const toNumber = normalizeAmount;
-// function toNumber(amount){
-//   let result = (amount + "").trim()
-//   let zerosToAdd=24;
-//   let pos = result.indexOf(".");
-//   if (pos>=0){
-//       zerosToAdd=zerosToAdd-(result.length-pos-1)
-//   }
-//   result = result.replace(".","") + "0".repeat(zerosToAdd)
-//   return result
-// }
 
 // Returns 1 if same type of tokens found
 function checkTokenType(tokenProvide, tokenWant) {
@@ -261,7 +246,7 @@ export async function calcPriceFromIn(tokenProvide, tokenWant) {
     // Native to NEP-21
     const price = await window.contract.price_near_to_token_in({
       token: tokenWant.address,
-      ynear_in: toNumber(tokenProvide.amount, tokenProvide.decimals)
+      ynear_in: normalizeAmount(tokenProvide.amount, tokenProvide.decimals)
     });
     console.debug(price);
     return price;
@@ -272,7 +257,7 @@ export async function calcPriceFromIn(tokenProvide, tokenWant) {
       const price = await window.contract.price_token_to_token_in({
         from: tokenProvide.address,
         to: tokenWant.address,
-        tokens_in: toNumber(tokenProvide.amount, tokenProvide.decimals)
+        tokens_in: normalizeAmount(tokenProvide.amount, tokenProvide.decimals)
       });
       return price;
     }
@@ -280,7 +265,7 @@ export async function calcPriceFromIn(tokenProvide, tokenWant) {
       // NEP-21 to Native
       const price = await window.contract.price_token_to_near_in({
         token: tokenProvide.address,
-        tokens_in: toNumber(tokenProvide.amount, tokenProvide.decimals)
+        tokens_in: normalizeAmount(tokenProvide.amount, tokenProvide.decimals)
       });
       return price;
     }
@@ -350,7 +335,7 @@ export async function calcPriceFromOut(tokenProvide, tokenWant) {
     // Native to NEP-21
     const price = await window.contract.price_near_to_token_out({
       token: tokenWant.address,
-      tokens_out: toNumber(tokenWant.amount, tokenWant.decimals)
+      tokens_out: normalizeAmount(tokenWant.amount, tokenWant.decimals)
     });
     console.debug("expect_in ", price);
     return price;
@@ -361,7 +346,7 @@ export async function calcPriceFromOut(tokenProvide, tokenWant) {
       const price = await window.contract.price_token_to_token_out({
         from: tokenProvide.address,
         to: tokenWant.address,
-        tokens_out: toNumber(tokenWant.amount, tokenWant.decimals)
+        tokens_out: normalizeAmount(tokenWant.amount, tokenWant.decimals)
       });
       console.debug("expect_in ", price);
       return price;
@@ -370,7 +355,7 @@ export async function calcPriceFromOut(tokenProvide, tokenWant) {
       // NEP-21 to Native
       const price = await window.contract.price_token_to_near_out({
         token: tokenProvide.address,
-        ynear_out: toNumber(tokenWant.amount, tokenWant.decimals)
+        ynear_out: normalizeAmount(tokenWant.amount, tokenWant.decimals)
       });
       return price;
     }
@@ -386,7 +371,7 @@ export async function swapFromOut(tokenProvide, tokenWant) {
     return 0;
   }
   
-  const amountWant = toNumber(tokenWant.amount, tokenWant.decimals); //user input: I want 2 tokens out from the pool -> convert "2" to yoctos
+  const amountWant = normalizeAmount(tokenWant.amount, tokenWant.decimals); //user input: I want 2 tokens out from the pool -> convert "2" to yoctos
   const amountProvide = tokenProvide.amount; //computed amount he has to send into the pool, already in yoctos 
 
   if (tokenProvide.type === nativeToken) {
@@ -449,7 +434,7 @@ export async function calcNearAddLiquidity(tokenDetails) {
 export async function addLiquidity(tokenDetails, maxTokenAmount, minSharesAmount) {
   await window.contract.add_liquidity({
     token: tokenDetails.address,
-    max_tokens: toNumber(maxTokenAmount, tokenDetails.decimals),
+    max_tokens: normalizeAmount(maxTokenAmount, tokenDetails.decimals),
     min_shares: minSharesAmount
   },
     maxGas,
