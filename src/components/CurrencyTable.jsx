@@ -251,16 +251,17 @@ export const CurrencyTable = () => {
             }</Badge>
           </td>
           <td className="text-right">
+            <div 
+            data-tip={convertToDecimals(token.balance, token.decimals)}
+            data-for='toolTip1'
+            data-place='top'>
             {token.balance
               ? <code className="text-secondary">{token.type==="ERC-20"?token.balance:
               convertTo5Dec(token.balance, token.decimals)}</code>
               : <code className="text-secondary">-</code>
             }
-            <ReactTooltip id="toolTip1" 
-            data-tip={convertToDecimals(token.balance, token.decimals)}
-            data-for='toolTip1'
-            data-place='top'
-            />
+            </div>
+            <ReactTooltip id="toolTip1"/>
           </td>
         </Tr>
       ))}
