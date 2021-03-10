@@ -1,7 +1,8 @@
 import React, { useContext, useEffect } from "react";
+import ReactTooltip from "react-tooltip";
 
 import findCurrencyLogoUrl from "../services/find-currency-logo-url";
-import { getAllowance, convertToE24Base5Dec, getBalanceNEP } from '../services/near-nep21-util'
+import { getAllowance, getBalanceNEP, convertToDecimals, convertTo5Dec } from '../services/near-nep21-util'
 import { calcPriceFromIn } from "../services/near-nep21-util";
 import { delay, isNonzeroNumber } from "../utils"
 
@@ -250,10 +251,17 @@ export const CurrencyTable = () => {
             }</Badge>
           </td>
           <td className="text-right">
+            <div 
+            data-tip={convertToDecimals(token.balance, token.decimals)}
+            data-for='toolTip1'
+            data-place='top'>
             {token.balance
-              ? <code className="text-secondary">{token.type==="ERC-20"?token.balance:convertToE24Base5Dec(token.balance)}</code>
+              ? <code className="text-secondary">{token.type==="ERC-20"?token.balance:
+              convertTo5Dec(token.balance, token.decimals)}</code>
               : <code className="text-secondary">-</code>
             }
+            </div>
+            <ReactTooltip id="toolTip1"/>
           </td>
         </Tr>
       ))}

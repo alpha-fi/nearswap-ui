@@ -6,7 +6,7 @@ const maxGas = '300000000000000';
 const attach60NearCents = '6' + e22;
 const nep21AllowanceFee = '7' + e22;
 const NDENOM = 1e24;
-const nativeToken = "NATIVE TOKEN";
+const nativeToken = "Native token";
 const nep21 = "NEP-21";
 
 export async function getBalanceNEP(contractName) {
@@ -121,6 +121,29 @@ export async function gasCheck() {
   return false;
 }
 
+export function convertTo5Dec(str, decimals) {
+  let len = Number(decimals);
+  let result = convertToDecimals(str, decimals);
+  if(decimals > 5) {
+    return result.slice(0, -(len - 5));
+  }
+  return result;
+}
+// Use decimal attribute format and return token amount.
+// Till 5 decimals
+export function convertToDecimals(str, decimals) {
+  let len = Number(decimals);
+  if(len == 0) {
+    return str;
+  }
+  if(str == "0") return "0.0";
+
+  let result = String(str).padStart(len + 1, "0");
+  result = result.slice(0, -len) + "." + result.slice(-len);
+
+  return result;
+}
+
 export function convertToE24Base5Dec(str) {
   let result = convertToE24Base(str)
   return result.slice(0, -19)
@@ -170,13 +193,16 @@ export function trimZeros(str) {
   return res;
 }
 
-/** convert an amount in tokens into YOCTOS
+/**
+ * convert an amount in tokens into YOCTOS
  * normalizeAmount 135  => "135"+"0".repeat(24)
  * normalizeAmount 0.14 => "14"+"0".repeat(24-2)
+ * @param value Value to be normalized
+ * @param decimal decimal for value
  */
-export function normalizeAmount(value) {
+export function normalizeAmount(value, decimal) {
   let ok = false;
-  let val = 24;
+  //let val = 24;
   let res = "";
   value = (value + "").trim();
   const amount = trimZeros(value);
@@ -187,34 +213,16 @@ export function normalizeAmount(value) {
     }
     else if (x >= '0' && x <= '9') {
       if (ok)
-        val--;
+      decimal--;
       res += x;
     } else {
       console.error("Error: Wrong Input");
       return -1;
     }
   }
-  res = res + "" + '0'.repeat(val);
+  res = res + "" + '0'.repeat(decimal);
   return res;
 }
-
-//Convert token units to yoctos 
-// 1.25 => 1.25*1e24.to_String()
-// 42 => 42*1e24.toString() 
-// 0 => "0".repeat(24)
-// The returned string will have at least 24 zeros
-//alias to normalizeAmount
-export const toYoctosString = normalizeAmount;
-// function toYoctosString(amount){
-//   let result = (amount + "").trim()
-//   let zerosToAdd=24;
-//   let pos = result.indexOf(".");
-//   if (pos>=0){
-//       zerosToAdd=zerosToAdd-(result.length-pos-1)
-//   }
-//   result = result.replace(".","") + "0".repeat(zerosToAdd)
-//   return result
-// }
 
 // Returns 1 if same type of tokens found
 function checkTokenType(tokenProvide, tokenWant) {
@@ -238,7 +246,7 @@ export async function calcPriceFromIn(tokenProvide, tokenWant) {
     // Native to NEP-21
     const price = await window.contract.price_near_to_token_in({
       token: tokenWant.address,
-      ynear_in: toYoctosString(tokenProvide.amount)
+      ynear_in: normalizeAmount(tokenProvide.amount, tokenProvide.decimals)
     });
     console.debug(price);
     return price;
@@ -249,7 +257,7 @@ export async function calcPriceFromIn(tokenProvide, tokenWant) {
       const price = await window.contract.price_token_to_token_in({
         from: tokenProvide.address,
         to: tokenWant.address,
-        tokens_in: toYoctosString(tokenProvide.amount)
+        tokens_in: normalizeAmount(tokenProvide.amount, tokenProvide.decimals)
       });
       return price;
     }
@@ -257,7 +265,7 @@ export async function calcPriceFromIn(tokenProvide, tokenWant) {
       // NEP-21 to Native
       const price = await window.contract.price_token_to_near_in({
         token: tokenProvide.address,
-        tokens_in: toYoctosString(tokenProvide.amount)
+        tokens_in: normalizeAmount(tokenProvide.amount, tokenProvide.decimals)
       });
       return price;
     }
@@ -319,16 +327,15 @@ export async function swapFromIn(tokenProvide, tokenWant) {
 }
 
 export async function calcPriceFromOut(tokenProvide, tokenWant) {
-  
   if (tokenWant.amount < 1 || checkTokenType(tokenProvide, tokenWant)) {
     return 0;
   }
-  console.debug(tokenProvide.type, tokenWant.type);
+  console.debug(tokenProvide.amount, tokenWant.amount);
   if (tokenProvide.type === nativeToken) {
     // Native to NEP-21
     const price = await window.contract.price_near_to_token_out({
       token: tokenWant.address,
-      tokens_out: toYoctosString(tokenWant.amount)
+      tokens_out: normalizeAmount(tokenWant.amount, tokenWant.decimals)
     });
     console.debug("expect_in ", price);
     return price;
@@ -339,7 +346,7 @@ export async function calcPriceFromOut(tokenProvide, tokenWant) {
       const price = await window.contract.price_token_to_token_out({
         from: tokenProvide.address,
         to: tokenWant.address,
-        tokens_out: toYoctosString(tokenWant.amount)
+        tokens_out: normalizeAmount(tokenWant.amount, tokenWant.decimals)
       });
       console.debug("expect_in ", price);
       return price;
@@ -348,7 +355,7 @@ export async function calcPriceFromOut(tokenProvide, tokenWant) {
       // NEP-21 to Native
       const price = await window.contract.price_token_to_near_out({
         token: tokenProvide.address,
-        ynear_out: toYoctosString(tokenWant.amount)
+        ynear_out: normalizeAmount(tokenWant.amount, tokenWant.decimals)
       });
       return price;
     }
@@ -364,7 +371,7 @@ export async function swapFromOut(tokenProvide, tokenWant) {
     return 0;
   }
   
-  const amountWant = toYoctosString(tokenWant.amount); //user input: I want 2 tokens out from the pool -> convert "2" to yoctos
+  const amountWant = normalizeAmount(tokenWant.amount, tokenWant.decimals); //user input: I want 2 tokens out from the pool -> convert "2" to yoctos
   const amountProvide = tokenProvide.amount; //computed amount he has to send into the pool, already in yoctos 
 
   if (tokenProvide.type === nativeToken) {
@@ -427,7 +434,7 @@ export async function calcNearAddLiquidity(tokenDetails) {
 export async function addLiquidity(tokenDetails, maxTokenAmount, minSharesAmount) {
   await window.contract.add_liquidity({
     token: tokenDetails.address,
-    max_tokens: toYoctosString(maxTokenAmount),
+    max_tokens: normalizeAmount(maxTokenAmount, tokenDetails.decimals),
     min_shares: minSharesAmount
   },
     maxGas,

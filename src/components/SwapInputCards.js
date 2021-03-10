@@ -1,10 +1,11 @@
 import React, { useEffect, useContext } from "react";
+import ReactTooltip from "react-tooltip";
 
-import { convertToE24Base5Dec } from '../services/near-nep21-util'
+import { convertToDecimals } from '../services/near-nep21-util'
 import { produce } from 'immer';
 
 import {getCurrentBalance, saveInputsStateLocalStorage, setCurrencyIndex} from "./CurrencyTable"
-import { calcPriceFromOut, swapFromOut, incAllowance, getAllowance } from "../services/near-nep21-util";
+import { calcPriceFromOut, swapFromOut, incAllowance, getAllowance, convertTo5Dec } from "../services/near-nep21-util";
 import { isNonzeroNumber, delay } from "../utils"
 
 import { InputsContext } from "../contexts/InputsContext";
@@ -87,7 +88,7 @@ export default function SwapInputCards() {
           type: 'SHOW_NOTIFICATION',
           payload: {
             heading: "Swap was successful",
-            message: "your balance went from " + convertToE24Base5Dec(inputs.state.swap.previous) + " to " + convertToE24Base5Dec(newBalance),
+            message: "your balance went from " + convertToDecimals(inputs.state.swap.previous, inputs.state.swap.in.decimals) + " to " + convertToDecimals(newBalance, inputs.state.swap.in.decimals),
             show: true,
           }
         });
@@ -313,7 +314,12 @@ export default function SwapInputCards() {
               {(inputs.state.swap.out.balance && inputs.state.swap.out.balance !== 0)
                 && <>
                   <small className="mr-3 text-secondary">
-                  Your Balance:<br />{convertToE24Base5Dec(inputs.state.swap.out.balance)}
+                  Your Balance:<br />
+                  <div data-tip={convertToDecimals(inputs.state.swap.out.balance, inputs.state.swap.out.decimals)}
+                        data-for='toolTip1'
+                        data-place='top'>{convertTo5Dec(inputs.state.swap.out.balance, inputs.state.swap.out.decimals)}
+                  </div>
+                  <ReactTooltip id="toolTip1" />
                   </small>
                   <br />
                 </>
@@ -357,10 +363,14 @@ export default function SwapInputCards() {
               <input
                 type="text"
                 readOnly
-                value={convertToE24Base5Dec(inputs.state.swap.in.amount)}
+                value={convertTo5Dec(inputs.state.swap.in.amount, inputs.state.swap.in.decimals)}
                 className="form-control border-0 bg-transparent"
                 placeholder="0.0"
+                data-tip={convertToDecimals(inputs.state.swap.in.amount, inputs.state.swap.in.decimals)}
+              data-for='toolTip2'
+              data-place='top'
               />
+              <ReactTooltip id="toolTip2" />
             </div>
           </Col>
           <Col xl={3} lg={3} md={4} sm={4} xs={12} className="d-flex flex-row-reverse align-items-center mr-2" style={{minWidth:"120px"}}>
@@ -370,7 +380,11 @@ export default function SwapInputCards() {
               {(inputs.state.swap.in.balance && inputs.state.swap.in.balance !== 0)
                 && <>
                   <small className="mr-3 text-secondary">
-                    Your Balance:<br />{convertToE24Base5Dec(inputs.state.swap.in.balance)}
+                    Your Balance:<br />
+                    <div data-tip={convertToDecimals(inputs.state.swap.in.balance, inputs.state.swap.in.decimals)}
+                        data-for='toolTip3'
+                        data-place='top'>{convertTo5Dec(inputs.state.swap.in.balance, inputs.state.swap.in.decimals)}</div>
+                  <ReactTooltip id="toolTip3" />
                   </small>
                   <br />
                 </>
@@ -401,7 +415,12 @@ export default function SwapInputCards() {
 
       {(inputs.state.swap.in.allowance && inputs.state.swap.in.type==="NEP-21") &&
         <div className="text-right pr-3 text-secondary">
-          <small>Current {inputs.state.swap.in.symbol} allowance: {convertToE24Base5Dec(inputs.state.swap.in.allowance)}</small>
+          <small>Current {inputs.state.swap.in.symbol} allowance: 
+          <div data-tip={convertToDecimals(inputs.state.swap.in.allowance, inputs.state.swap.in.decimals)}
+                    data-for='toolTip4'
+                    data-place='top'>{convertTo5Dec(inputs.state.swap.in.allowance, inputs.state.swap.in.decimals)}</div>
+          <ReactTooltip id="toolTip4" />
+          </small>
         </div>
       }
 
@@ -413,7 +432,12 @@ export default function SwapInputCards() {
         {!inputs.state.swap.error &&
           <small className="text-secondary">
             You&apos;ll get <b className="text-black">{inputs.state.swap.out.amount}</b> {inputs.state.swap.out.symbol}{' '} 
-            for <b className="text-black">{convertToE24Base5Dec(inputs.state.swap.in.amount)}</b> {inputs.state.swap.in.symbol}.
+            for <b className="text-black">
+            <div data-tip={convertToDecimals(inputs.state.swap.in.amount, inputs.state.swap.in.decimals)}
+                    data-for='toolTip5'
+                    data-place='top'>{convertTo5Dec(inputs.state.swap.in.amount, inputs.state.swap.in.decimals)}</div>
+              <ReactTooltip id="toolTip5" />
+            </b> {inputs.state.swap.in.symbol}.
           </small>
         }
         
@@ -440,7 +464,12 @@ export default function SwapInputCards() {
               ? <>
                 Approve {inputs.state.swap.in.symbol} allowance {
                   (inputs.state.swap.in.amount && inputs.state.swap.in.amount !== 0)
-                    ? <>of {convertToE24Base5Dec(inputs.state.swap.in.amount)}</>
+                    ? <>of 
+                    <div data-tip={convertToDecimals(inputs.state.swap.in.amount, inputs.state.swap.in.decimals)}
+                      data-for='toolTip5'
+                      data-place='top'>{convertTo5Dec(inputs.state.swap.in.amount, inputs.state.swap.in.decimals)}</div>
+                    <ReactTooltip id="toolTip5" />
+                    </>
                     : ""
                 }
               </>

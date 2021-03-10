@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
+import ReactTooltip from "react-tooltip";
 
-import { calcNearAddLiquidity, convertToE24Base5Dec, incAllowance, addLiquidity } from "../services/near-nep21-util";
+import { calcNearAddLiquidity, incAllowance, addLiquidity, convertToDecimals, convertTo5Dec } from "../services/near-nep21-util";
 
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
@@ -85,7 +86,11 @@ export default function CurrencySelectionModal() {
           </small>
         </label>
         </InputBox>
-        <p className="mt-2 mb-1 text-center lead">+ {convertToE24Base5Dec(inputs.state.addLiquidityModal.requiredNearAmount)} NEAR</p>
+        <p className="mt-2 mb-1 text-center lead">+
+        <div data-tip={convertToDecimals(inputs.state.addLiquidityModal.requiredNearAmount, 24)}
+              data-for='toolTip1'
+              data-place='top'>{convertTo5Dec(inputs.state.addLiquidityModal.requiredNearAmount, 24)}</div>
+        <ReactTooltip id="toolTip1" /> NEAR</p>
         <Row className="text-center pt-2">
           <Col>
             <small className="text-secondary">Allowance</small>
@@ -110,10 +115,16 @@ export default function CurrencySelectionModal() {
             }
           </Col>
           <Col className="align-self-center">
-            {convertToE24Base5Dec(inputs.state.addLiquidityModal.tokenPerNear)}
+            <div data-tip={convertToDecimals(inputs.state.addLiquidityModal.tokenPerNear, inputs.state.addLiquidityModal.selectedTokenDecimal)}
+              data-for='toolTip2'
+              data-place='top'>{convertTo5Dec(inputs.state.addLiquidityModal.tokenPerNear, inputs.state.addLiquidityModal.selectedTokenDecimal)}</div>
+            <ReactTooltip id="toolTip2" />
           </Col>
           <Col className="align-self-center">
-            {convertToE24Base5Dec(inputs.state.addLiquidityModal.nearPerToken)}
+            <div data-tip={convertToDecimals(inputs.state.addLiquidityModal.nearPerToken, 24)}
+              data-for='toolTip3'
+              data-place='top'>{convertTo5Dec(inputs.state.addLiquidityModal.nearPerToken, 24)}</div>
+            <ReactTooltip id="toolTip3" />
           </Col>
         </Row>
       </Modal.Body>
