@@ -1,16 +1,16 @@
 import React, { useContext } from "react";
 
 import { login, logout } from '../utils'
-
-import { Web3Context, signInWithWeb3 } from '../contexts/Web3Context';
+// eth connection disabled
+//import { Web3Context, signInWithWeb3 } from '../contexts/Web3Context';
 
 import Dropdown from 'react-bootstrap/Dropdown';
 
 export default function WalletConnectionButtons() {
 
   // Web3 state
-  const web3State = useContext(Web3Context);
-  const { web3Modal, setWeb3Modal, setCurrentUser, currentUser } = web3State;
+  //const web3State = useContext(Web3Context);
+  //const { web3Modal, setWeb3Modal, setCurrentUser, currentUser } = web3State;
 
   // Initial connection buttons
   let nearConnectionBtn, ethConnectionBtn;
@@ -23,7 +23,7 @@ export default function WalletConnectionButtons() {
   }
 
   // Set Ethereum connection button with correct label and function call
-  if (!currentUser) {
+  /*if (!currentUser) {
     ethConnectionBtn = <Dropdown.Item onClick={
       async () => {
         try {
@@ -48,7 +48,7 @@ export default function WalletConnectionButtons() {
         }
       }
     }>Disconnect Ethereum wallet</Dropdown.Item>
-  }
+  }*/
 
   return (
     <>
