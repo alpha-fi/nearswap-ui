@@ -5,7 +5,7 @@ import { initContract } from './utils'
 
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { InputsProvider } from './contexts/InputsContext';
-import { Web3Provider } from './contexts/Web3Context';
+//import { Web3Provider } from './contexts/Web3Context';
 import { TokenListProvider } from './contexts/TokenListContext';
 import { NotificationProvider } from './contexts/NotificationContext';
 
@@ -34,7 +34,6 @@ loadTokenList().then(() => {
     .then(() => {
       ReactDOM.render(
         <InputsProvider>
-          <Web3Provider>
             <TokenListProvider>
               <NotificationProvider>
                 <ThemeProvider>
@@ -42,7 +41,6 @@ loadTokenList().then(() => {
                 </ThemeProvider>
               </NotificationProvider>
             </TokenListProvider>
-          </Web3Provider>
         </InputsProvider>,
         document.querySelector('#root')
       )
