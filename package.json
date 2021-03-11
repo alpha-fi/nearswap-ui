@@ -41,6 +41,7 @@
     "react-icons": "^3.11.0",
     "react-tooltip": "^4.2.15",
     "regenerator-runtime": "^0.13.7",
+    "uncontrollable": "7.1.1",
     "web3": "^1.3.1",
     "web3modal": "^1.9.2",
     "wouter": "^2.7.0"
