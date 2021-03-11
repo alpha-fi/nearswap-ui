@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 
-import { incAllowance, createPool, getAllowance } from "../services/near-nep21-util";
+import { createPool } from "../services/near-nep21-util";
 
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
@@ -41,32 +41,41 @@ export default function CurrencySelectionModal() {
   async function handleTokenInput(event) {
     let inputAmount = event.target.value;
     setTokenInputAmount(inputAmount);
+    handlePrices();
   }
 
   async function handleTokenAddressInput(event) {
     let input = event.target.value;
     setTokenAddress(input);
-    let token = {
-      address: inputs.state.createPoolModal.tokenAddress
-    }
-    let allowance = await getAllowance(token);
     dispatch({
       type:'UPDATE_CREATE_POOL_TOKEN_ALLOWANCE',
-      payload: {tokenAllowance: allowance}
+      payload: {
+        tokenAllowance: 0,
+        tokenAddress: input
+      }
     })
   }
 
   async function handleNearAmount(event) {
     let input = event.target.value;
     setNearAmount(input);
+    console.log(input, "NEAR");
+    handlePrices();
   }
 
-  function increaseAllowance() {
-    let token = {
-      address: inputs.state.createPoolModal.tokenAddress,
-      amount: tokenInputAmount
+  async function handlePrices() {
+    console.log(tokenInputAmount, nearAmount, "jasshdlkas");
+    if(tokenInputAmount > 0 && nearAmount > 0) {
+      let near = Number(nearAmount) / Number(tokenInputAmount);
+      let token = Number(tokenInputAmount) / Number(nearAmount);
+      dispatch({
+        type:'UPDATE_INITIAL_PRICE',
+        payload: {
+          nearPerToken: near,
+          tokenPerNear: token
+        }
+      })
     }
-    incAllowance(token);
   }
 
   function handleCreatePool() {
@@ -141,10 +150,10 @@ export default function CurrencySelectionModal() {
             </div>
           </div>
         </InputBox>
-
+        <p className="text-center my-1 text-secondary" style={{ 'letterSpacing': '3px' }}><small>Initial pool share and prices</small></p>
         <Row className="text-center pt-2">
           <Col>
-            <small className="text-secondary">Allowance</small>
+            <small className="text-secondary">Pool Share</small>
           </Col>
           <Col>
             <small className="text-secondary">{inputs.state.createPoolModal.tokenAddress} per NEAR</small>
@@ -155,15 +164,7 @@ export default function CurrencySelectionModal() {
         </Row>
         <Row className="text-center pb-2">
           <Col className="align-self-center">
-            {inputs.state.createPoolModal.tokenAllowance}
-            <br/>
-            {((tokenInputAmount > 0) && (inputs.state.createPoolModal.tokenAllowance < tokenInputAmount))
-              && <Button
-                    size="sm"
-                    variant="warning"
-                    onClick={increaseAllowance}
-                    ><small>Increase to {tokenInputAmount}</small></Button>
-            }
+            100 %
           </Col>
           <Col className="align-self-center">
             {(inputs.state.createPoolModal.tokenPerNear)}
