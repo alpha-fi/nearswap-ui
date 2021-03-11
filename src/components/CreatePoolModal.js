@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 
-import { convertToE24Base5Dec, incAllowance, createPool, getAllowance } from "../services/near-nep21-util";
+import { incAllowance, createPool, getAllowance } from "../services/near-nep21-util";
 
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
@@ -10,6 +10,7 @@ import Col from 'react-bootstrap/Col';
 import { InputsContext } from "../contexts/InputsContext";
 import styled from "@emotion/styled";
 import { BsArrowDown } from "react-icons/bs";
+import { AiOutlinePlusSquare } from "react-icons/ai";
 
 const InputBox = styled("div")`
   color: ${props => props.theme.body};
@@ -79,7 +80,7 @@ export default function CurrencySelectionModal() {
   return (
     <Modal show={inputs.state.createPoolModal.isVisible} onHide={toggleModalVisibility}>
       <Modal.Header closeButton>
-        <Modal.Title>Create Pool</Modal.Title>
+        <Modal.Title>Add New Pool</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <InputBox className="py-2">
@@ -121,7 +122,7 @@ export default function CurrencySelectionModal() {
         </InputBox>
 
         <div className="text-center my-2">
-        <span style={{ cursor: 'pointer' }}><BsArrowDown /></span>
+        <span style={{ cursor: 'pointer' }}><AiOutlinePlusSquare /></span>
         </div>
 
         <InputBox className="py-2">
@@ -178,7 +179,7 @@ export default function CurrencySelectionModal() {
           onClick={handleCreatePool}
           disabled={((tokenInputAmount <= 0) || (inputs.state.createPoolModal.tokenAllowance < tokenInputAmount))}
         >
-          Create Pool
+        Add New Pool
         </Button>
         <Button variant="secondary" onClick={toggleModalVisibility}>
           Close

@@ -38,7 +38,8 @@ export default function CurrencySelectionModal() {
     setTokenInputAmount(inputAmount);
     let token = {
       address: inputs.state.addLiquidityModal.selectedTokenName,
-      amount: inputAmount
+      amount: inputAmount,
+      decimals: inputs.state.addLiquidityModal.selectedTokenDecimal
     }
     let requiredNear = await calcNearAddLiquidity(token);
     dispatch({type:'UPDATE_ADD_LIQUIDITY_REQUIRED_NEAR_AMOUNT', payload: {requiredNearAmount: requiredNear}})

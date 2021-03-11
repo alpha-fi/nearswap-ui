@@ -235,6 +235,7 @@ function reduce(state, action) {
         draft.addLiquidityModal.selectedTokenName = action.payload.selectedTokenName;
         draft.addLiquidityModal.selectedTokenSymbol = action.payload.selectedTokenSymbol;
         draft.addLiquidityModal.selectedTokenAllowance = action.payload.selectedTokenAllowance;
+        draft.addLiquidityModal.selectedTokenDecimal = action.payload.selectedTokenDecimal;
         draft.addLiquidityModal.tokenPerNear = action.payload.tokenPerNear;
         draft.addLiquidityModal.nearPerToken = action.payload.nearPerToken;
         draft.addLiquidityModal.decimals = action.payload.decimals;

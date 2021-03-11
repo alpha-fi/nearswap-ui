@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import { login, logout } from '../utils'
 // eth connection disabled
