@@ -75,7 +75,7 @@ export default function PoolTab() {
   return (
     <>
       <p className="text-center my-1 text-secondary" style={{ 'letterSpacing': '3px' }}><small>POOLS</small></p>
-      <Button variant="warning" size="sm" className="mr-1 mb-1" onClick={() => handlePoolCreation("", "", "")}>Create Pool</Button>
+      <Button variant="warning" size="md" className="ml-1 mb-1" onClick={() => handlePoolCreation("", "", "")}>Add New Pool</Button>{' '}
       {pools.map((pool, index) => (
         <PoolInfoCard key={index} 
                     ynear={pool.ynear} 

@@ -76,7 +76,7 @@ export async function incAllowance(swapLeg) {
     //WARN: SDE, State Destruction Event, window.nep21.inc_allowance will navigate out of this SPA to the wallet
     await window.nep21.inc_allowance({
       escrow_account_id: window.config.contractName,
-      amount: swapLeg.amount+""
+      amount: normalizeAmount(swapLeg.amount)+""
     },
       maxGas,
       nep21AllowanceFee
@@ -425,8 +425,7 @@ export async function calcNearAddLiquidity(tokenDetails) {
     token: tokenDetails.address,
     tokens_out: normalizeAmount("1")
   });
-
-  var nearRequired = new BN(unitPrice).mul(new BN(tokenDetails.amount));
+  var nearRequired = new BN(unitPrice).mul(new BN(normalizeAmount(tokenDetails.amount, tokenDetails.decimals)));
   return nearRequired.toString();
 
 }

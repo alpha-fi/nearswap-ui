@@ -53,6 +53,7 @@ let initialState = {
   },
   createPoolModal: {
     isVisible: false,
+    tokenAddress: "",
     initialToken: 0,
     tokenAllowance: "",
     initialNear: 0,
@@ -235,6 +236,7 @@ function reduce(state, action) {
         draft.addLiquidityModal.selectedTokenName = action.payload.selectedTokenName;
         draft.addLiquidityModal.selectedTokenSymbol = action.payload.selectedTokenSymbol;
         draft.addLiquidityModal.selectedTokenAllowance = action.payload.selectedTokenAllowance;
+        draft.addLiquidityModal.selectedTokenDecimal = action.payload.selectedTokenDecimal;
         draft.addLiquidityModal.tokenPerNear = action.payload.tokenPerNear;
         draft.addLiquidityModal.nearPerToken = action.payload.nearPerToken;
         draft.addLiquidityModal.decimals = action.payload.decimals;
@@ -251,13 +253,18 @@ function reduce(state, action) {
         draft.createPoolModal.initialToken = 0;
         draft.createPoolModal.initialNear = 0;
         draft.createPoolModal.tokenAllowance = 0;
-        draft.createPoolModal.nearPerToken = 0;
-        draft.createPoolModal.tokenPerNear = 0;
       });
 
     case 'UPDATE_CREATE_POOL_TOKEN_ALLOWANCE':
       return produce(state, draft => {
         draft.createPoolModal.tokenAllowance = action.payload.tokenAllowance;
+        draft.createPoolModal.tokenAddress = action.payload.tokenAddress;
+      });
+
+    case 'UPDATE_INITIAL_PRICE':
+      return produce(state, draft => {
+        draft.createPoolModal.nearPerToken = action.payload.nearPerToken;
+        draft.createPoolModal.tokenPerNear = action.payload.tokenPerNear;
       });
 
     case 'UPDATE_SWAP_APPROVAL':
