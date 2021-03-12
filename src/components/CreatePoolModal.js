@@ -8,6 +8,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
 import { InputsContext } from "../contexts/InputsContext";
+import { useSetState } from "../services/useState";
 import styled from "@emotion/styled";
 import { BsArrowDown } from "react-icons/bs";
 import { AiOutlinePlusSquare } from "react-icons/ai";
@@ -27,9 +28,9 @@ export default function CurrencySelectionModal() {
   const inputs = useContext(InputsContext);
   const { dispatch } = inputs;
 
-  const [tokenInputAmount, setTokenInputAmount] = useState("");
+  const [tokenInputAmount, setTokenInputAmount, getTokenInputAmount] = useSetState("");
   const [tokenAddress, setTokenAddress] = useState("");
-  const [nearAmount, setNearAmount] = useState("");
+  const [nearAmount, setNearAmount, getNearAmount] = useSetState("");
 
   const toggleModalVisibility = () => {
     dispatch({ type: 'TOGGLE_CREATE_POOL_MODAL' });
@@ -59,15 +60,15 @@ export default function CurrencySelectionModal() {
   async function handleNearAmount(event) {
     let input = event.target.value;
     setNearAmount(input);
-    console.log(input, "NEAR");
     handlePrices();
   }
 
   async function handlePrices() {
-    console.log(tokenInputAmount, nearAmount, "jasshdlkas");
-    if(tokenInputAmount > 0 && nearAmount > 0) {
-      let near = Number(nearAmount) / Number(tokenInputAmount);
-      let token = Number(tokenInputAmount) / Number(nearAmount);
+    let tokenAmount = await getTokenInputAmount();
+    let nearAmount = await getNearAmount();
+    if(tokenAmount > 0 && nearAmount > 0) {
+      let near = Number(nearAmount) / Number(tokenAmount);
+      let token = Number(tokenAmount) / Number(nearAmount);
       dispatch({
         type:'UPDATE_INITIAL_PRICE',
         payload: {
