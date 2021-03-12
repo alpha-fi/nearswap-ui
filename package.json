@@ -34,7 +34,7 @@
     "eslint-plugin-react": "^7.22.0",
     "immer": "^8.0.1",
     "near-api-js": "^0.38.0",
-    "react": ">=17.0.1",
+    "react": "^17.0.1",
     "react-bootstrap": "^1.4.0",
     "react-dom": "^17.0.1",
     "react-hook-thunk-reducer": "^0.2.4",
