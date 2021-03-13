@@ -3,7 +3,7 @@
 
 ## Web interface for NEARswap smart-contract.
 
-NEARswap is part of [NEAR-CLP](https://github.com/near-clp/smart-contracts) - a set of protocols for decentralized finance. With a ground research and solid experience in smart-contract development we define our mission to provide common goods for NEAR DeFi.
+NEARswap is part of [NEAR-CLP](https://github.com/alpha-fi/smart-contracts) - a set of protocols for decentralized finance. With a ground research and solid experience in smart-contract development we define our mission to provide common goods for NEAR DeFi.
 
 Our latest testnet is deployed at: **[nearswap-testnet](https://siasky.net/AADIHaZZz73figEETkQizv2V7CB7vDh1Jn1Z3STTQsrsUA/)**
 
@@ -82,4 +82,4 @@ We build the Open Source software and knowledge base. All our work is licensed w
 
 The MPL is a simple copyleft license. The MPL's "file-level" copyleft is designed to encourage contributors to share modifications they make to your code, while still allowing them to combine your code with code under other licenses (open or proprietary) with minimal restrictions.
 
-[Authors](https://github.com/robert-zaremba/near-clp/graphs/contributors)
+[Authors](https://github.com/alpha-fi/nearswap-ui/graphs/contributors)
