@@ -30,7 +30,7 @@ export default function NavigationBar() {
           <Nav className="mr-auto">
             <Nav.Link><AboutButton/></Nav.Link>
             <Nav.Link><ThemeSwitcher/></Nav.Link>
-            <Nav.Link href="https://github.com/robert-zaremba/near-clp"><FaGithub/></Nav.Link>
+            <Nav.Link href="https://github.com/alpha-fi/nearswap-ui"><FaGithub/></Nav.Link>
           </Nav>
           <SettingsButton/>
         </Container>
