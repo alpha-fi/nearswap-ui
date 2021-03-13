@@ -91,7 +91,7 @@ export default function CurrencySelectionModal() {
         <div data-tip={convertToDecimals(inputs.state.addLiquidityModal.requiredNearAmount, 24) 
               + "<br />   Decimals: 24"}
               data-for='toolTip1'
-              data-place='top'>{convertTo5Dec(inputs.state.addLiquidityModal.requiredNearAmount, 24)}
+              data-place='top'>{convertTo5Dec(inputs.state.addLiquidityModal.requiredNearAmount, 24) + "…"}
         </div>
         <ReactTooltip id="toolTip1" multiline={true}/> NEAR</p>
         <Row className="text-center pt-2">
@@ -121,14 +121,18 @@ export default function CurrencySelectionModal() {
             <div data-tip={convertToDecimals(inputs.state.addLiquidityModal.tokenPerNear, inputs.state.addLiquidityModal.selectedTokenDecimal)
               + "<br />   Decimals: " + inputs.state.addLiquidityModal.selectedTokenDecimal}
               data-for='toolTip2'
-              data-place='top'>{convertTo5Dec(inputs.state.addLiquidityModal.tokenPerNear, inputs.state.addLiquidityModal.selectedTokenDecimal)}</div>
+              data-place='top'>{
+                convertTo5Dec(inputs.state.addLiquidityModal.tokenPerNear, inputs.state.addLiquidityModal.selectedTokenDecimal)
+                + "…"
+              }
+            </div>
             <ReactTooltip id="toolTip2" multiline={true}/>
           </Col>
           <Col className="align-self-center">
             <div data-tip={convertToDecimals(inputs.state.addLiquidityModal.nearPerToken, 24)
               + "<br />   Decimals: 24"}
               data-for='toolTip3'
-              data-place='top'>{convertTo5Dec(inputs.state.addLiquidityModal.nearPerToken, 24)}</div>
+              data-place='top'>{convertTo5Dec(inputs.state.addLiquidityModal.nearPerToken, 24) + "…"}</div>
             <ReactTooltip id="toolTip3" multiline={true}/>
           </Col>
         </Row>
