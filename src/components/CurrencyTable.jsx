@@ -257,7 +257,7 @@ export const CurrencyTable = () => {
             data-place='top'>
             {token.balance
               ? <code className="text-secondary">{token.type==="ERC-20"?token.balance:
-              convertTo5Dec(token.balance, token.decimals)}</code>
+              convertTo5Dec(token.balance, token.decimals) + "…"}</code>
               : <code className="text-secondary">-</code>
             }
             </div>
