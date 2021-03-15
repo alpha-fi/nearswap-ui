@@ -76,7 +76,8 @@ export default function PoolInfoCard(props) {
                       <div data-tip={convertToDecimals(props.ynear, 24)
                        + "<br />   Decimals: 24"}
                         data-for='toolTip1'
-                        data-place='top'>{convertTo5Dec(props.ynear, 24) + "…"}
+                        data-place='top'>{convertTo5Dec(props.ynear, 24)?
+                          convertTo5Dec(props.ynear, 24) + "…":"0.0"}
                         </div>
                         <ReactTooltip id="toolTip1" multiline={true}/>
                         </th>
@@ -89,7 +90,8 @@ export default function PoolInfoCard(props) {
                       <div data-tip={convertToDecimals(props.reserve, 24)
                        + "<br />   Decimals: 24"}
                         data-for='toolTip2'
-                        data-place='top'>{convertTo5Dec(props.reserve, 24) + "…"}
+                        data-place='top'>{convertTo5Dec(props.reserve, 24)?
+                          convertTo5Dec(props.reserve, 24) + "…":"0.0"}
                       </div>
                         <ReactTooltip id="toolTip2" multiline={true}/>
                       </td>
@@ -100,7 +102,8 @@ export default function PoolInfoCard(props) {
                         <div data-tip={convertToDecimals(props.my_shares, 24)
                          + "<br />   Decimals: 24"}
                           data-for='toolTip3'
-                          data-place='top'>{convertTo5Dec(props.my_shares, 24) + "…"}
+                          data-place='top'>{convertTo5Dec(props.my_shares, 24)?
+                            convertTo5Dec(props.my_shares, 24) + "…":"0.0"}
                         </div>
                         <ReactTooltip id="toolTip3" multiline={true}/>
                       </ColoredThemeText></td>
@@ -111,7 +114,8 @@ export default function PoolInfoCard(props) {
                         <div data-tip={convertToDecimals(props.total_shares, 24)
                            + "<br />   Decimals: 24"}
                           data-for='toolTip4'
-                          data-place='top'>{convertTo5Dec(props.total_shares, 24) + "…"}
+                          data-place='top'>{convertTo5Dec(props.total_shares, 24)?
+                            convertTo5Dec(props.total_shares, 24) + "…":"0.0"}
                         </div>
                         <ReactTooltip id="toolTip4" multiline={true}/>
                       </td>

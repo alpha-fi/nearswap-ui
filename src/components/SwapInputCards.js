@@ -367,7 +367,7 @@ export default function SwapInputCards() {
               <input
                 type="text"
                 readOnly
-                value={convertTo5Dec(inputs.state.swap.in.amount, inputs.state.swap.in.decimals) + "…"}
+                value={convertTo5Dec(inputs.state.swap.in.amount, inputs.state.swap.in.decimals)? convertTo5Dec(inputs.state.swap.in.amount, inputs.state.swap.in.decimals)+"…":"0.0"}
                 className="form-control border-0 bg-transparent"
                 placeholder="0.0"
                   data-tip={convertToDecimals(inputs.state.swap.in.amount, inputs.state.swap.in.decimals)
@@ -390,8 +390,9 @@ export default function SwapInputCards() {
                          + "<br />   Decimals: " + inputs.state.swap.in.decimals}
                         data-for='toolTip3'
                         data-place='top'>{
+                          convertTo5Dec(inputs.state.swap.in.balance, inputs.state.swap.in.decimals)?
                           convertTo5Dec(inputs.state.swap.in.balance, inputs.state.swap.in.decimals)
-                          + "…"
+                          + "…":"0.0"
                         }
                     </div>
                   <ReactTooltip id="toolTip3" multiline={true}/>
@@ -430,8 +431,9 @@ export default function SwapInputCards() {
               + "<br />   Decimals: " + inputs.state.swap.in.decimals}
               data-for='toolTip4'
               data-place='top'>{
+                convertTo5Dec(inputs.state.swap.in.allowance, inputs.state.swap.in.decimals)?
                 convertTo5Dec(inputs.state.swap.in.allowance, inputs.state.swap.in.decimals) 
-                + "…"
+                + "…":"0.0"
               }
             </div>
           <ReactTooltip id="toolTip4" multiline={true}/>
@@ -452,8 +454,9 @@ export default function SwapInputCards() {
                 + "<br />   Decimals: " + inputs.state.swap.in.decimals}
                 data-for='toolTip5'
                 data-place='top'>{
+                  convertTo5Dec(inputs.state.swap.in.amount, inputs.state.swap.in.decimals)?
                   convertTo5Dec(inputs.state.swap.in.amount, inputs.state.swap.in.decimals)
-                  + "…"
+                  + "…":"0.0"
                 }
             </div>
               <ReactTooltip id="toolTip5" multiline={true}/>
@@ -489,8 +492,9 @@ export default function SwapInputCards() {
                        + "<br />   Decimals: " + inputs.state.swap.in.decimals}
                       data-for='toolTip6'
                       data-place='top'>{
+                        convertTo5Dec(inputs.state.swap.in.amount, inputs.state.swap.in.decimals)?
                         convertTo5Dec(inputs.state.swap.in.amount, inputs.state.swap.in.decimals)
-                        + "…"
+                        + "…":"0.0"
                       }
                     </div>
                     <ReactTooltip id="toolTip6" multiline={true}/>
