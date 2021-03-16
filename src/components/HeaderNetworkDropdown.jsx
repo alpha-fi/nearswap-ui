@@ -14,14 +14,9 @@ const HeaderNetworkDropdown = () => (
       <Dropdown>
         <Dropdown.Toggle className="header-network" variant="secondary">
           <div className="network-icon"></div>
-          {window.nearNetworkId}
+          {"Testnet"}
           <img
-            className="icon-right"
-            src="/assets/icon-network-right.svg"
-          />
-          <img
-            src="/assets/down-blue-arrow.svg"
-            className="dropdown-arrow"
+            src={require('../assets/icon-network-right.svg')}
           />
         </Dropdown.Toggle>
         <Dropdown.Menu className="header-network-dropdown-menu">
