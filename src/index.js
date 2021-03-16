@@ -11,10 +11,10 @@ import { NotificationProvider } from './contexts/NotificationContext';
 
 
 const tokenListURLs = {
-  'betanet': 'https://ghcdn.rawgit.org/near-clp/token-list/master/beta-net.json',
-  'guildnet': 'https://ghcdn.rawgit.org/near-clp/token-list/master/guild-net.json',
-  'mainnet': 'https://ghcdn.rawgit.org/near-clp/token-list/master/main-net.json',
-  'testnet': 'https://ghcdn.rawgit.org/near-clp/token-list/master/test-net.json'
+  'betanet': 'https://ghcdn.rawgit.org/alpha-fi/token-list/master/beta-net.json',
+  'guildnet': 'https://ghcdn.rawgit.org/alpha-fi/token-list/master/guild-net.json',
+  'mainnet': 'https://ghcdn.rawgit.org/alpha-fi/token-list/master/main-net.json',
+  'testnet': 'https://ghcdn.rawgit.org/alpha-fi/token-list/master/test-net.json'
 }
 
 async function loadTokenList() {
