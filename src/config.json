@@ -1,4 +1,5 @@
 var config = {
+  "nearNetworks": ["mainnet", "testnet", "betanet", "guildnet"],
   "contractName": "beta-1.nearswap.testnet",
   "ethWalletExplorerPrefix": "https://etherscan.io/address/",
   "ipfsPrefix": "https://ipfs.infura.io:5001/api/v0/cat/",

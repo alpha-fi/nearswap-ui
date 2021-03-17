@@ -330,7 +330,7 @@ export async function calcPriceFromOut(tokenProvide, tokenWant) {
   if (tokenWant.amount < 1 || checkTokenType(tokenProvide, tokenWant)) {
     return 0;
   }
-  console.debug(tokenProvide.amount, tokenWant.amount);
+  console.debug(tokenProvide.amount, normalizeAmount(tokenWant.amount, tokenWant.decimals));
   if (tokenProvide.type === nativeToken) {
     // Native to NEP-21
     const price = await window.contract.price_near_to_token_out({
